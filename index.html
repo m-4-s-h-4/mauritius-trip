@@ -101,7 +101,7 @@ textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:f
 </div></div>
 
 <div class="modal" id="activityModal"><div class="sheet">
-  <h2>Add activity</h2>
+  <h2 id="activityHeading">Add activity</h2>
   <form class="form" id="activityForm">
     <label>Name<input id="name" required placeholder="Whale swimming"></label>
     <div class="row"><label>Day<select id="day"></select></label><label>Time<input id="time" type="time"></label></div>
@@ -114,7 +114,7 @@ textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:f
 </div></div>
 
 <div class="modal" id="expenseModal"><div class="sheet">
-  <h2>Add expense</h2>
+  <h2 id="expenseHeading">Add expense</h2>
   <form class="form" id="expenseForm">
     <label>Title<input id="expenseTitle" required placeholder="Lunch, taxi, boat tour…"></label>
     <div class="currency">
@@ -165,7 +165,7 @@ function render(){
       (e.maps?'<a class="maps" target="_blank" rel="noopener" href="'+esc(e.maps)+'">Open in Google Maps ↗</a>':"")+
       (e.notes?'<div class="eventMeta">'+esc(e.notes)+'</div>':"")+
       (e.cost?'<div class="eventMeta">'+eur(e.cost)+' · '+esc(e.payer||"")+'</div>':"")+
-      '</div><button class="delete" onclick="removeEvent(\''+e.id+'\')" aria-label="Delete">×</button></div>').join("")
+      '</div><div><button class="delete" onclick="editEvent(\''+e.id+'\')" aria-label="Edit">✎</button><button class="delete" onclick="removeEvent(\''+e.id+'\')" aria-label="Delete">×</button></div></div>').join("")
     : '<div class="empty">Nothing planned for this day.<br><span>Use + to add an activity or expense.</span></div>';
 
   let m=0,d=0; S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount:d+=+e.amount);
@@ -174,7 +174,7 @@ function render(){
   $("bal").innerHTML=b===0?"<span>All even</span><strong>€0 owed</strong>":b>0?"<span>Dil owes Maria</span><strong>"+eur(b)+"</strong>":"<span>Maria owes Dil</span><strong>"+eur(-b)+"</strong>";
   $("expensesList").innerHTML=S.expenses.length
     ? '<div class="sectionHead"><h2>All expenses</h2><span class="muted">'+S.expenses.length+'</span></div>'+S.expenses.slice().reverse().map(e=>
-      '<div class="expense"><span class="expenseRight"><div class="expenseEur">'+eur(e.amount)+'</div><div class="expenseMur">'+(e.mur?Math.round(e.mur).toLocaleString()+" MUR":"")+'</div></span><div class="expenseTitle">'+esc(e.name)+'</div><span class="muted">'+esc(e.payer)+' · '+esc(e.date||"")+'</span></div>').join("")
+      '<div class="expense"><span class="expenseRight"><button class="delete" onclick="editExpense(\''+e.id+'\')" aria-label="Edit">✎</button><button class="delete" onclick="removeExpense(\''+e.id+'\')" aria-label="Delete">×</button><div class="expenseEur">'+eur(e.amount)+'</div><div class="expenseMur">'+(e.mur?Math.round(e.mur).toLocaleString()+" MUR":"")+'</div></span><div class="expenseTitle">'+esc(e.name)+'</div><span class="muted">'+esc(e.payer)+' · '+esc(e.date||"")+'</span></div>').join("")
     : '<div class="empty">No expenses yet.</div>';
 }
 async function save(){ $("status").textContent="Saving…";try{const x=await api("PUT",S);lastUpdated=x.updated_at||new Date().toISOString();$("status").textContent="Synced"}catch(e){$("status").textContent="Save failed";console.error(e)}}
@@ -187,9 +187,8 @@ function fillDays(){
   const opts=dates.map(d=>'<option value="'+d+'">'+shortLabel(d)+'</option>').join("");
   $("day").innerHTML=opts;$("expenseDay").innerHTML=opts;$("day").value=sel;$("expenseDay").value=sel;
 }
-function openActivity(){closeAll();$("activityModal").classList.add("on");fillDays();$("day").value=sel}
-function openExpense(){closeAll();$("expenseModal").classList.add("on");fillDays();$("expenseDay").value=sel;getRate()}
-
+function openActivity(editId=null){closeAll();$("activityModal").classList.add("on");fillDays();$("day").value=sel;$("activityForm").dataset.editId=editId||"";$("activityHeading").textContent=editId?"Edit activity":"Add activity";if(!editId){$("activityForm").reset();$("day").value=sel;return}const x=S.events.find(e=>e.id===editId);if(!x)return;$("name").value=x.name||"";$("day").value=x.day||sel;$("time").value=x.time||"";$("loc").value=x.location||"";$("maps").value=x.maps||"";$("notes").value=x.notes||"";$("cost").value=x.cost||"";$("payer").value=x.payer||"Maria"}
+function openExpense(editId=null){closeAll();$("expenseModal").classList.add("on");fillDays();$("expenseDay").value=sel;$("expenseForm").dataset.editId=editId||"";$("expenseHeading").textContent=editId?"Edit expense":"Add expense";getRate();if(!editId){$("expenseForm").reset();$("expenseDay").value=sel;updatePreview();return}const x=S.expenses.find(e=>e.id===editId);if(!x)return;$("expenseTitle").value=x.name||"";$("mur").value=x.mur||((+x.amount||0)/murToEur).toFixed(0);$("expensePayer").value=x.payer||"Maria";$("expenseDay").value=x.date||sel;setTimeout(updatePreview,0)}
 $("fab").onclick=openChoice;$("bottomPlus").onclick=openChoice;$("choiceCancel").onclick=closeAll;
 $("addActivity").onclick=openActivity;$("addExpense").onclick=openExpense;
 $("activityCancel").onclick=closeAll;$("expenseCancel").onclick=closeAll;
@@ -203,8 +202,8 @@ $("activityForm").onsubmit=async e=>{
   e.preventDefault();
   const c=+$("cost").value||0;
   const x={id:crypto.randomUUID(),name:$("name").value.trim(),day:$("day").value,time:$("time").value,location:$("loc").value.trim(),maps:$("maps").value.trim(),notes:$("notes").value.trim(),cost:c,payer:$("payer").value};
-  S.events.push(x);
-  if(c)S.expenses.push({id:crypto.randomUUID(),name:x.name,amount:c,payer:x.payer,date:x.day,mur:null});
+  if($("activityForm").dataset.editId){const i=S.events.findIndex(e=>e.id===$("activityForm").dataset.editId);if(i>=0)S.events[i]=x}else S.events.push(x);
+  if(c){S.expenses=S.expenses.filter(e=>!(e.eventId===x.id));S.expenses.push({id:crypto.randomUUID(),name:x.name,amount:c,payer:x.payer,date:x.day,mur:null,eventId:x.id});}
   sel=x.day;closeAll();render();await save();e.target.reset();
 };
 $("expenseForm").onsubmit=async e=>{
@@ -212,9 +211,9 @@ $("expenseForm").onsubmit=async e=>{
   const mur=+$("mur").value||0,amount=mur*murToEur;
   if(!murToEur){$("rateText").textContent="Exchange rate unavailable — try again in a moment.";return}
   const x={id:crypto.randomUUID(),name:$("expenseTitle").value.trim(),amount,payer:$("expensePayer").value,date:$("expenseDay").value,mur};
-  S.expenses.push(x);sel=x.date;closeAll();render();await save();e.target.reset();updatePreview();
+  if($("expenseForm").dataset.editId){const i=S.expenses.findIndex(e=>e.id===$("expenseForm").dataset.editId);if(i>=0)S.expenses[i]=x}else S.expenses.push(x);sel=x.date;closeAll();render();await save();e.target.reset();updatePreview();
 };
-window.removeEvent=async id=>{
+window.editEvent=id=>openActivity(id);window.editExpense=id=>openExpense(id);window.removeExpense=async id=>{S.expenses=S.expenses.filter(x=>x.id!==id);render();await save()};window.removeEvent=async id=>{
   const event=S.events.find(x=>x.id===id);
   S.events=S.events.filter(x=>x.id!==id);
   if(event && event.cost)S.expenses=S.expenses.filter(x=>!(x.name===event.name&&x.date===event.day&&+x.amount===+event.cost));
