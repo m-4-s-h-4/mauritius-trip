@@ -131,8 +131,10 @@ function render(){
  $("events").innerHTML=ev.length?ev.map(e=>'<div class="event"><div class="time">'+esc(e.time||"All day")+'</div><div><h3>'+esc(e.name)+'</h3>'+(e.location?'<div class="meta">'+esc(e.location)+"</div>":"")+(e.maps?'<a class="maps" target="_blank" rel="noopener" href="'+esc(e.maps)+'">Open in Google Maps ↗</a>':"")+(e.notes?'<div class="meta" style="margin-top:7px">'+esc(e.notes)+"</div>":"")+(e.cost?'<div class="meta" style="margin-top:7px">'+eur(e.cost)+" · "+esc(e.payer||"")+"</div>":"")+'</div><div class="rowBtns"><button class="mini" data-edit-event="'+esc(e.id)+'">✎</button><button class="mini" data-remove-event="'+esc(e.id)+'">×</button></div></div>').join(""):'<div class="empty">Nothing planned for this day.<br>Tap + to add something.</div>';
  let m=0,d=0;S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount||0:d+=+e.amount||0);$("m").textContent=eur(m);$("d").textContent=eur(d);
  const diff=m-d;$("bal").innerHTML=diff===0?"<span>Everything is even</span><strong>€0 owed</strong>":diff>0?'<span>Dil owes Maria</span><strong>'+eur(diff/2)+"</strong>":'<span>Maria owes Dil</span><strong>'+eur(-diff/2)+"</strong>";
- $("expenseCount").textContent=S.expenses.length?String(S.expenses.length):"Nothing yet";
- $("expensesList").innerHTML=S.expenses.length ? S.expenses.slice().reverse().map(e=>{
+ const filteredExpenses=S.expenses.filter(e=>{if(expenseFilter==="all")return true;if(expenseFilter==="Maria"||expenseFilter==="Dil")return e.payer===expenseFilter;const total=+e.total||+e.amount||0,paid=+e.paid||+e.amount||0;return stat(total,paid)===expenseFilter});
+ $("expenseCount").textContent=filteredExpenses.length?String(filteredExpenses.length):"Nothing yet";
+ document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("on",b.dataset.filter===expenseFilter));
+ $("expensesList").innerHTML=filteredExpenses.length ? filteredExpenses.slice().reverse().map(e=>{
    const total=+e.total||+e.amount||0, paid=+e.paid||+e.amount||0, cur=e.currency||"EUR", st=stat(total,paid), rem=Math.max(0,total-paid);
    const shown=cur==="MUR"?Math.round(paid).toLocaleString()+" MUR":eur(paid);
    const badge=st==="paid"?"Paid":st==="partial"?"Partially paid":"Pending";
@@ -203,7 +205,7 @@ async function activitySubmit(ev){ev.preventDefault();const f=ev.currentTarget,i
 async function removeEvent(id){if(!confirm("Delete this activity?"))return;S.events=S.events.filter(e=>e.id!==id);S.expenses=S.expenses.filter(e=>e.eventId!==id);render();await save()}
 async function removeExpense(id){if(!confirm("Delete this expense?"))return;S.expenses=S.expenses.filter(e=>e.id!==id);render();await save()}
 function editEvent(id){openActivity(id)}function editExpense(id){openExpense(id)}
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>view(b.dataset.v));
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>view(b.dataset.v));document.querySelectorAll(".filter").forEach(b=>b.onclick=()=>{expenseFilter=b.dataset.filter;render()});
 $("plus").onclick=()=>modal("choiceModal");$("choiceCancel").onclick=close;$("addActivity").onclick=()=>openActivity();$("addExpense").onclick=()=>openExpense();$("activityCancel").onclick=close;$("activityClose").onclick=close;$("expenseCancel").onclick=close;$("expenseClose").onclick=close;
 $("activityForm").onsubmit=activitySubmit;$("expenseForm").onsubmit=expenseSubmit;
 document.querySelectorAll("#currencyChoices button").forEach(b=>b.onclick=()=>{$("expenseForm").dataset.currency=b.dataset.currency;expensePreview();if(b.dataset.currency==="MUR")getRate()});
