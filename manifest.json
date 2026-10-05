@@ -1,0 +1,16 @@
+{
+  "name": "Mauritius ’26",
+  "short_name": "Mauritius ’26",
+  "start_url": "/mauritius-trip/",
+  "display": "standalone",
+  "background_color": "#f6f6f4",
+  "theme_color": "#f6f6f4",
+  "icons": [
+    {
+      "src": "/mauritius-trip/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
