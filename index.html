@@ -21,7 +21,7 @@ h1{font-size:40px;line-height:.95;letter-spacing:-.06em;margin:7px 0}
 .topnav .on{background:#fff;color:var(--ink);box-shadow:0 1px 4px #0000000d}
 .view{display:none}.view.on{display:block}
 .calendar{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;margin-bottom:12px}
-.calendarHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.calendarHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.calendarNav{display:flex;gap:6px}.calendarNav button{width:38px;height:38px;border:0;border-radius:11px;background:#f3f1ed;font-size:18px}
 .calendarTitle{font-weight:750}.calendarHint{font-size:12px;color:var(--muted)}
 .days{display:grid;grid-template-columns:repeat(9,1fr);gap:5px}
 .day{border:0;background:transparent;border-radius:14px;padding:9px 3px;color:var(--muted);min-width:0}
@@ -31,17 +31,17 @@ h1{font-size:40px;line-height:.95;letter-spacing:-.06em;margin:7px 0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;margin:12px 0}
 .sectionHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
 .sectionHead h2{font-size:18px;margin:0;letter-spacing:-.03em}
-.event{display:grid;grid-template-columns:56px 1fr auto;gap:11px;padding:15px 0;border-bottom:1px solid #eee}
+.event{display:grid;grid-template-columns:56px 1fr auto;gap:11px;padding:16px 0;border-bottom:1px solid #eee;min-height:76px}
 .event:last-child{border-bottom:0}.time{font-weight:750;font-size:14px;padding-top:2px}.event h3{margin:0 0 5px;font-size:16px}.muted{color:var(--muted)}
 .maps{display:inline-flex;margin-top:8px;background:var(--green2);color:var(--green);text-decoration:none;border-radius:10px;padding:7px 9px;font-weight:650;font-size:13px}
-.eventMeta{margin-top:7px;color:var(--muted);font-size:13px}.delete{border:0;background:transparent;color:#aaa;font-size:20px;padding:0 3px}
+.eventMeta{margin-top:7px;color:var(--muted);font-size:13px}.delete{border:0;background:#f3f1ed;color:#555;width:42px;height:42px;border-radius:12px;font-size:19px;padding:0;margin-left:4px}.delete:active{transform:scale(.94)}
 .empty{text-align:center;padding:36px 15px;color:var(--muted)}
-.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}.stat strong{display:block;font-size:24px;margin-top:4px}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}.stat strong{display:block;font-size:24px;margin-top:4px}
 .balance{background:var(--green);color:#fff;border-radius:20px;padding:17px;margin:12px 0}.balance strong{display:block;font-size:25px;margin-top:3px}
 .expense{padding:14px 0;border-bottom:1px solid #eee}.expense:last-child{border:0}.expenseTitle{font-weight:700}.expenseRight{float:right;text-align:right}.expenseEur{font-weight:750}.expenseMur{font-size:12px;color:var(--muted);margin-top:2px}
-.fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));width:58px;height:58px;border:0;border-radius:50%;background:var(--ink);color:#fff;font-size:29px;box-shadow:0 8px 25px #0002;z-index:5}
+.fab{display:none}
 .bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(760px,100%);height:64px;background:#ffffffeb;backdrop-filter:blur(15px);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;z-index:4;padding-bottom:env(safe-area-inset-bottom)}
-.bottom button{border:0;background:transparent;font-weight:700;color:var(--muted);height:48px}.bottom .plus{justify-self:center;width:50px;height:50px;border-radius:50%;background:var(--ink);color:#fff;font-size:27px}
+.bottom button{border:0;background:transparent;font-weight:700;color:var(--muted);height:56px;min-width:44px;padding:6px 8px}.bottom button.active{color:var(--ink)}.bottom .plus{justify-self:center;width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;font-size:29px;box-shadow:0 5px 16px #0002}.bottom .navIcon{display:block;font-size:20px;line-height:20px}.bottom .navLabel{display:block;font-size:10px;margin-top:2px}
 .modal{display:none;position:fixed;inset:0;background:#0008;align-items:flex-end;z-index:10}.modal.on{display:flex}
 .sheet{background:var(--bg);width:100%;max-width:600px;margin:auto;padding:20px 18px calc(22px + env(safe-area-inset-bottom));border-radius:26px 26px 0 0;max-height:90vh;overflow:auto}
 .sheet h2{margin:0 0 16px;font-size:25px;letter-spacing:-.04em}
@@ -68,14 +68,14 @@ textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:f
 
   <section id="schedule" class="view on">
     <div class="calendar">
-      <div class="calendarHead"><div class="calendarTitle" id="selectedDate"></div><div class="calendarHint">Tap a day</div></div>
+      <div class="calendarHead"><div><div class="calendarTitle" id="selectedDate"></div><div class="calendarHint">Your day</div></div><div class="calendarNav"><button id="prevDay" aria-label="Previous day">‹</button><button id="nextDay" aria-label="Next day">›</button></div></div>
       <div class="days" id="days"></div>
     </div>
     <div class="card" id="events"></div>
   </section>
 
   <section id="expenses" class="view">
-    <div class="summary">
+    <div class="card" style="margin-top:0"><div class="sectionHead"><h2>Trip spending</h2><span class="muted" id="totalSpend">€0</span></div></div><div class="summary">
       <div class="stat"><span class="muted">Maria paid</span><strong id="m">€0</strong></div>
       <div class="stat"><span class="muted">Dil paid</span><strong id="d">€0</strong></div>
     </div>
@@ -84,7 +84,7 @@ textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:f
   </section>
 </div>
 
-<button class="fab" id="fab" aria-label="Add">+</button>
+
 <nav class="bottom">
   <button data-v="schedule">Schedule</button>
   <button class="plus" id="bottomPlus">+</button>
@@ -130,7 +130,7 @@ textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:f
 <script>
 const API="https://flcnidtinfhpjdvqvegl.supabase.co/functions/v1/trip-api";
 const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsY25pZHRpbmZocGpkdnF2ZWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExOTkwMTAsImV4cCI6MjEwNjc3NTAxMH0.jBWofh1-jw_8tNAJJsFDigNpU2LT-FM6zlTHTE7o9h0";
-let S={people:["Maria","Dil"],events:[],expenses:[]},sel="2026-10-13",murToEur=0.0101,lastUpdated="";
+let S={people:["Maria","Dil"],events:[],expenses:[]},sel="2026-10-13",murToEur=0.0185,lastUpdated="";
 const dates=Array.from({length:9},(_,i)=>new Date(Date.UTC(2026,9,13+i)).toISOString().slice(0,10));
 const $=id=>document.getElementById(id);
 const eur=n=>"€"+(+n||0).toFixed(2).replace(".00","");
@@ -169,7 +169,7 @@ function render(){
     : '<div class="empty">Nothing planned for this day.<br><span>Use + to add an activity or expense.</span></div>';
 
   let m=0,d=0; S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount:d+=+e.amount);
-  $("m").textContent=eur(m);$("d").textContent=eur(d);
+  $("m").textContent=eur(m);$("d").textContent=eur(d);$("totalSpend").textContent=eur(m+d);
   const b=(m-d)/2;
   $("bal").innerHTML=b===0?"<span>All even</span><strong>€0 owed</strong>":b>0?"<span>Dil owes Maria</span><strong>"+eur(b)+"</strong>":"<span>Maria owes Dil</span><strong>"+eur(-b)+"</strong>";
   $("expensesList").innerHTML=S.expenses.length
@@ -183,20 +183,20 @@ async function load(silent=false){
 }
 function openChoice(){$("choiceModal").classList.add("on")}
 function closeAll(){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"))}
-function fillDays(){
+function moveDay(n){const i=dates.indexOf(sel);if(i>=0&&dates[i+n]){sel=dates[i+n];render();}}\nfunction setActiveNav(v){document.querySelectorAll(".bottom button[data-v]").forEach(x=>x.classList.toggle("active",x.dataset.v===v));}\nfunction fillDays(){
   const opts=dates.map(d=>'<option value="'+d+'">'+shortLabel(d)+'</option>').join("");
   $("day").innerHTML=opts;$("expenseDay").innerHTML=opts;$("day").value=sel;$("expenseDay").value=sel;
 }
 function openActivity(editId=null){closeAll();$("activityModal").classList.add("on");fillDays();$("day").value=sel;$("activityForm").dataset.editId=editId||"";$("activityHeading").textContent=editId?"Edit activity":"Add activity";if(!editId){$("activityForm").reset();$("day").value=sel;return}const x=S.events.find(e=>e.id===editId);if(!x)return;$("name").value=x.name||"";$("day").value=x.day||sel;$("time").value=x.time||"";$("loc").value=x.location||"";$("maps").value=x.maps||"";$("notes").value=x.notes||"";$("cost").value=x.cost||"";$("payer").value=x.payer||"Maria"}
 function openExpense(editId=null){closeAll();$("expenseModal").classList.add("on");fillDays();$("expenseDay").value=sel;$("expenseForm").dataset.editId=editId||"";$("expenseHeading").textContent=editId?"Edit expense":"Add expense";getRate();if(!editId){$("expenseForm").reset();$("expenseDay").value=sel;updatePreview();return}const x=S.expenses.find(e=>e.id===editId);if(!x)return;$("expenseTitle").value=x.name||"";$("mur").value=x.mur||((+x.amount||0)/murToEur).toFixed(0);$("expensePayer").value=x.payer||"Maria";$("expenseDay").value=x.date||sel;setTimeout(updatePreview,0)}
-$("fab").onclick=openChoice;$("bottomPlus").onclick=openChoice;$("choiceCancel").onclick=closeAll;
+$("prevDay").onclick=()=>moveDay(-1);$("nextDay").onclick=()=>moveDay(1);$("bottomPlus").onclick=openChoice;$("choiceCancel").onclick=closeAll;
 $("addActivity").onclick=openActivity;$("addExpense").onclick=openExpense;
 $("activityCancel").onclick=closeAll;$("expenseCancel").onclick=closeAll;
 $("mur").oninput=updatePreview;
 document.querySelectorAll(".topnav button,.bottom button[data-v]").forEach(b=>b.onclick=()=>{
   const v=b.dataset.v;
   document.querySelectorAll(".topnav button").forEach(x=>x.classList.toggle("on",x.dataset.v===v));
-  document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id===v));
+  document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id===v));setActiveNav(v);
 });
 $("activityForm").onsubmit=async e=>{
   e.preventDefault();
@@ -219,7 +219,7 @@ window.editEvent=id=>openActivity(id);window.editExpense=id=>openExpense(id);win
   if(event && event.cost)S.expenses=S.expenses.filter(x=>!(x.name===event.name&&x.date===event.day&&+x.amount===+event.cost));
   render();await save();
 };
-fillDays();render();load();getRate();setInterval(()=>load(true),10000);
+fillDays();render();setActiveNav("schedule");load();getRate();setInterval(()=>load(true),10000);
 </script>
 </body>
 </html>
