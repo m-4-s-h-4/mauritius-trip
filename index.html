@@ -127,7 +127,13 @@ function render(){
  let m=0,d=0;S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount||0:d+=+e.amount||0);$("m").textContent=eur(m);$("d").textContent=eur(d);
  const diff=m-d;$("bal").innerHTML=diff===0?"<span>Everything is even</span><strong>€0 owed</strong>":diff>0?'<span>Dil owes Maria</span><strong>'+eur(diff/2)+"</strong>":'<span>Maria owes Dil</span><strong>'+eur(-diff/2)+"</strong>";
  $("expenseCount").textContent=S.expenses.length?String(S.expenses.length):"Nothing yet";
- $("expensesList").innerHTML=S.expenses.length?S.expenses.slice().reverse().map(e=>{const total=+e.total||+e.amount||0,paid=+e.paid||+e.amount||0,c=e.currency||"EUR",st=stat(total,paid),rem=Math.max(0,total-paid);const shown=c==="MUR"?Math.round(paid).toLocaleString()+" MUR":eur(paid);return '<div class="expense"><div><div class="expenseTitle">'+esc(e.name)+'</div><div class="expenseMeta">'+esc(e.payer)+" · "+shown+(c==="MUR"?" · "+eur(toEur(paid,c)):"")+'</div><span class="badge '+st+'">'+(st==="paid"?"Paid":st==="partial"?"Partially paid":"Pending")+"</span>"+(rem>0?'<div class="remaining">Remaining: '+(c==="MUR"?Math.round(rem).toLocaleString()+" MUR":eur(rem))+"</div>":"")+'</div><div class="expenseRight"><strong>'+eur(e.amount)+'</strong><div class="rowBtns" style="justify-content:flex-end;margin-top:7px"><button class="mini" data-edit-expense="'+esc(e.id)+'">✎</button><button class="mini" data-remove-expense="'+esc(e.id)+'">×</button></div></div></div>"}).join(""):'<div class="empty">No expenses yet.<br>Tap + to add one.</div>';
+ $("expensesList").innerHTML=S.expenses.length ? S.expenses.slice().reverse().map(e=>{
+   const total=+e.total||+e.amount||0, paid=+e.paid||+e.amount||0, cur=e.currency||"EUR", st=stat(total,paid), rem=Math.max(0,total-paid);
+   const shown=cur==="MUR"?Math.round(paid).toLocaleString()+" MUR":eur(paid);
+   const badge=st==="paid"?"Paid":st==="partial"?"Partially paid":"Pending";
+   const remaining=rem>0?'<div class="remaining">Remaining: '+(cur==="MUR"?Math.round(rem).toLocaleString()+" MUR":eur(rem))+"</div>":"";
+   return '<div class="expense"><div><div class="expenseTitle">'+esc(e.name)+'</div><div class="expenseMeta">'+esc(e.payer)+" · "+shown+(cur==="MUR"?" · "+eur(toEur(paid,cur)):"")+'</div><span class="badge '+st+'">'+badge+'</span>'+remaining+'</div><div class="expenseRight"><strong>'+eur(e.amount)+'</strong><div class="rowBtns" style="justify-content:flex-end;margin-top:7px"><button class="mini" data-edit-expense="'+esc(e.id)+'">✎</button><button class="mini" data-remove-expense="'+esc(e.id)+'">×</button></div></div></div>';
+ }).join("") : '<div class="empty">No expenses yet.<br>Tap + to add one.</div>';
 }
 function modal(id){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"));$(id).classList.add("on")}
 function close(){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"))}
