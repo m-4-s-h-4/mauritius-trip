@@ -18,10 +18,53 @@ async function load(){try{let x=await api();S={people:["Maria","Dil"],events:x.e
 async function save(){ $("status").textContent="Saving…";try{let x=await api("PUT",S);lastUpdated=x.updated_at||"";$("status").textContent="Synced"}catch(e){$("status").textContent="Save failed";console.error(e)}}
 async function refresh(){try{let x=await api();if(x.updated_at!==lastUpdated){S={people:["Maria","Dil"],events:x.events||[],expenses:x.expenses||[]};lastUpdated=x.updated_at||"";render()}$("status").textContent="Synced"}catch(e){$("status").textContent="Offline"}}
 function toEur(v,c){return c==="MUR"?(+v||0)*rate:(+v||0)}function stat(total,paid){return +paid<=0?"pending":+paid>=+total?"paid":"partial"}
-function render(){ $("days").innerHTML=dates.map(d=>{let x=new Date(d+"T12:00:00"),has=S.events.some(e=>e.day===d);return '<button class="day '+(d===sel?"on ":"")+(has?"has":"")+'" data-d="'+d+'"><span class="dow">'+x.toLocaleDateString("en-GB",{weekday:"short"})+'</span><b>'+x.getDate()+"</b></button>"}).join("");document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{sel=b.dataset.d;render()});$("selectedDate").textContent=label(sel);
-let ev=S.events.filter(e=>e.day===sel).sort((a,b)=>(a.time||"99").localeCompare(b.time||"99"));$("events").innerHTML=ev.length?'<div class="sectionHead"><h2>Plan</h2><span class="muted">'+ev.length+" "+(ev.length===1?"thing":"things")+"</span></div>"+ev.map(e=>'<div class="event"><div class="time">'+(e.time||"All day")+'</div><div><h3>'+esc(e.name)+'</h3>'+(e.location?'<div class="muted">'+esc(e.location)+"</div>":"")+(e.maps?'<a class="maps" target="_blank" rel="noopener" href="'+esc(e.maps)+'">Open in Google Maps ↗</a>':"")+(e.notes?'<div class="eventMeta">'+esc(e.notes)+"</div>":"")+(e.cost?'<div class="eventMeta">'+eur(e.cost)+" · "+esc(e.payer||"")+"</div>":"")+'</div><div><button type="button" class="iconBtn" data-edit-event="'+esc(e.id)+'">✎</button><button type="button" class="iconBtn" data-remove-event="'+esc(e.id)+'">×</button></div></div>').join(""):'<div class="empty">Nothing planned for this day.<br>Use + to add an activity.</div>';
-let m=0,d=0;S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount||0:d+=+e.amount||0);$("m").textContent=eur(m);$("d").textContent=eur(d);let diff=m-d;$("bal").innerHTML=diff===0?"<span>All even</span><strong>€0 owed</strong>":diff>0?"<span>Dil owes Maria</span><strong>"+eur(diff/2)+"</strong>":"<span>Maria owes Dil</span><strong>"+eur(-diff/2)+"</strong>";
-$("expensesList").innerHTML=S.expenses.length?'<div class="sectionHead"><h2>Expenses</h2><span class="muted">'+S.expenses.length+"</span></div>"+S.expenses.slice().reverse().map(e=>{let total=+e.total||+e.amount||0,paid=+e.paid||+e.amount||0,c=e.currency||"EUR",st=e.status||stat(total,paid),rem=Math.max(0,total-paid),pt=c==="MUR"?Math.round(paid).toLocaleString()+" MUR":eur(paid),tt=c==="MUR"?Math.round(total).toLocaleString()+" MUR":eur(total);return '<div class="expense"><div class="expenseGrid"><div><div class="expenseTitle">'+esc(e.name)+'</div><div class="expenseMeta">'+esc(e.payer)+" · "+pt+" of "+tt+(c==="MUR"?" · "+eur(toEur(paid,c))+" paid":"")+"</div><span class="badge "+st+">"+(st==="paid"?"Paid":st==="partial"?"Partially paid":"Pending")+"</span>"+(rem>0?'<div class="remaining">Remaining: '+(c==="MUR"?Math.round(rem).toLocaleString()+" MUR":eur(rem))+"</div>":"")+'</div><div class="expenseAmount"><button class="iconBtn" onclick="editExpense(\''+e.id+"\')">✎</button><button class="iconBtn" onclick="removeExpense('"+e.id+"')">×</button><div>"+eur(e.amount)+"</div></div></div></div>"}).join(""):'<div class="empty">No expenses yet.<br>Tap + to add one.</div>'}
+function render(){
+  $("days").innerHTML=dates.map(d=>{
+    const x=new Date(d+"T12:00:00"),has=S.events.some(e=>e.day===d);
+    return `<button type="button" class="day ${d===sel?"on ":""}${has?"has":""}" data-d="${d}"><span class="dow">${x.toLocaleDateString("en-GB",{weekday:"short"})}</span><b>${x.getDate()}</b></button>`;
+  }).join("");
+  document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{sel=b.dataset.d;render()});
+  $("selectedDate").textContent=label(sel);
+
+  const ev=S.events.filter(e=>e.day===sel).sort((a,b)=>(a.time||"99").localeCompare(b.time||"99"));
+  $("events").innerHTML=ev.length
+    ? `<div class="sectionHead"><h2>Plan</h2><span class="muted">${ev.length} ${ev.length===1?"thing":"things"}</span></div>`+
+      ev.map(e=>`<div class="event">
+        <div class="time">${esc(e.time||"All day")}</div>
+        <div><h3>${esc(e.name)}</h3>
+        ${e.location?`<div class="muted">${esc(e.location)}</div>`:""}
+        ${e.maps?`<a class="maps" target="_blank" rel="noopener" href="${esc(e.maps)}">Open in Google Maps ↗</a>`:""}
+        ${e.notes?`<div class="eventMeta">${esc(e.notes)}</div>`:""}
+        ${e.cost?`<div class="eventMeta">${eur(e.cost)} · ${esc(e.payer||"")}</div>`:""}
+        </div>
+        <div><button type="button" class="iconBtn" data-edit-event="${esc(e.id)}">✎</button><button type="button" class="iconBtn" data-remove-event="${esc(e.id)}">×</button></div>
+      </div>`).join("")
+    : '<div class="empty">Nothing planned for this day.<br>Use + to add an activity.</div>';
+
+  let m=0,d=0;
+  S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount||0:d+=+e.amount||0);
+  $("m").textContent=eur(m);$("d").textContent=eur(d);
+  const diff=m-d;
+  $("bal").innerHTML=diff===0?"<span>All even</span><strong>€0 owed</strong>":diff>0?`<span>Dil owes Maria</span><strong>${eur(diff/2)}</strong>`:`<span>Maria owes Dil</span><strong>${eur(-diff/2)}</strong>`;
+
+  $("expensesList").innerHTML=S.expenses.length
+    ? `<div class="sectionHead"><h2>Expenses</h2><span class="muted">${S.expenses.length}</span></div>`+
+      S.expenses.slice().reverse().map(e=>{
+        const total=+e.total||+e.amount||0,paid=+e.paid||+e.amount||0,c=e.currency||"EUR",st=stat(total,paid),rem=Math.max(0,total-paid);
+        const pt=c==="MUR"?Math.round(paid).toLocaleString()+" MUR":eur(paid),tt=c==="MUR"?Math.round(total).toLocaleString()+" MUR":eur(total);
+        return `<div class="expense"><div class="expenseGrid"><div>
+          <div class="expenseTitle">${esc(e.name)}</div>
+          <div class="expenseMeta">${esc(e.payer)} · ${pt} of ${tt}${c==="MUR"?` · ${eur(toEur(paid,c))} paid`:""}</div>
+          <span class="badge ${st}">${st==="paid"?"Paid":st==="partial"?"Partially paid":"Pending"}</span>
+          ${rem>0?`<div class="remaining">Remaining: ${c==="MUR"?Math.round(rem).toLocaleString()+" MUR":eur(rem)}</div>`:""}
+        </div><div class="expenseAmount">
+          <button type="button" class="iconBtn" data-edit-expense="${esc(e.id)}">✎</button>
+          <button type="button" class="iconBtn" data-remove-expense="${esc(e.id)}">×</button>
+          <div>${eur(e.amount)}</div>
+        </div></div></div>`;
+      }).join("")
+    : '<div class="empty">No expenses yet.<br>Tap + to add one.</div>';
+}
 function modal(id){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"));$(id).classList.add("on")}function close(){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"))}
 function view(v){document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id===v));document.querySelectorAll(".bottom button[data-v]").forEach(x=>x.classList.toggle("on",x.dataset.v===v))}
 function fillDays(){$("day").innerHTML=dates.map(d=>'<option value="'+d+'">'+short(d)+"</option>").join("")}
