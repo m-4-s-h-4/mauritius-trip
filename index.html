@@ -7,7 +7,7 @@
 <title>Mauritius ’26</title>
 <style>
 *{box-sizing:border-box}
-:root{--bg:#f7f7f5;--card:#fff;--ink:#111;--muted:#8a8882;--line:#e7e5e0;--blue:#007aff;--soft:#eef5ff;--red:#b94b42}
+:root{--bg:#f6f6f4;--card:#fff;--ink:#111;--muted:#898780;--line:#e5e4df;--blue:#007aff;--purple:#8b5cf6;--coral:#ff5c5c;--orange:#ff9500;--soft:#eef5ff;--softPurple:#f3efff;--softCoral:#fff0f0;--softOrange:#fff5e7;--red:#b94b42}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button,input,select,textarea{font:inherit;font-size:16px}
 button{border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -38,26 +38,26 @@ h1{font-size:38px;line-height:1;letter-spacing:-.055em;margin:7px 0 8px}
 .maps{display:inline-flex;margin-top:9px;padding:7px 10px;border-radius:10px;background:var(--soft);color:var(--blue);font-size:12px;font-weight:700;text-decoration:none}
 .rowBtns{display:flex;gap:5px}.mini{width:32px;height:32px;border-radius:10px;background:#f1f0ed;color:#555;font-size:15px}
 .empty{padding:40px 20px;text-align:center;color:var(--muted);font-size:14px;line-height:1.55}
-.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px}.stat span{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:25px;letter-spacing:-.04em;margin-top:6px}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px}.stat:before{content:"";position:absolute;width:58px;height:58px;border-radius:50%;right:-18px;top:-18px;opacity:.16}.stat:first-child:before{background:var(--blue)}.stat:last-child:before{background:var(--purple)}.stat span{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:25px;letter-spacing:-.04em;margin-top:6px}
 .balance{margin-top:10px;padding:18px 19px;border-radius:21px;background:var(--ink);color:#fff}.balance span{font-size:12px;opacity:.65}.balance strong{display:block;font-size:24px;margin-top:4px;letter-spacing:-.04em}
-.expense{display:flex;justify-content:space-between;gap:12px;padding:17px 16px;border-bottom:1px solid var(--line)}.expense:last-child{border-bottom:0}.expenseTitle{font-weight:750;font-size:16px}.expenseMeta{font-size:12px;color:var(--muted);margin-top:5px}.expenseRight{text-align:right}.expenseRight strong{font-size:16px}.badge{display:inline-block;margin-top:7px;padding:4px 7px;border-radius:7px;font-size:10px;font-weight:800}.paid{background:var(--soft);color:var(--blue)}.partial{background:#fff3dc;color:#a66a00}.pending{background:#f0efec;color:#777}.remaining{font-size:12px;color:#a66a00;margin-top:6px}
+.expense{display:flex;justify-content:space-between;gap:12px;padding:17px 16px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 2px 10px #00000005}.expense:last-child{border-bottom:1px solid var(--line)}#expensesList{background:transparent;border:0;overflow:visible;display:grid;gap:10px}.expenseRight{min-width:74px}.expenseTitle{font-weight:750;font-size:16px}.expenseMeta{font-size:12px;color:var(--muted);margin-top:5px}.expenseRight{text-align:right}.expenseRight strong{font-size:16px}.badge{display:inline-block;margin-top:7px;padding:4px 7px;border-radius:7px;font-size:10px;font-weight:800}.paid{background:var(--soft);color:var(--blue)}.partial{background:var(--softOrange);color:#a66a00}.pending{background:var(--softPurple);color:#7250b5}.remaining{font-size:12px;color:#a66a00;margin-top:6px}
 .bottom{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(680px,100%);height:78px;padding:8px 22px env(safe-area-inset-bottom);background:rgba(255,255,255,.88);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 64px 1fr;align-items:center}
-.tab{height:48px;background:none;color:#92908a;font-size:12px;font-weight:750}.tab.on{color:var(--ink)}.plus{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;font-size:27px;justify-self:center;box-shadow:0 6px 18px #0002}
+.tab{height:48px;background:none;color:#92908a;font-size:12px;font-weight:750}.tab.on{color:var(--ink)}.tab[data-v="schedule"].on{color:var(--blue)}.tab[data-v="expenses"].on{color:var(--purple)}.plus{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;font-size:27px;justify-self:center;box-shadow:0 6px 18px #0002}
 .modal{display:none;position:fixed;z-index:50;inset:0;background:rgba(0,0,0,.32);align-items:flex-end}.modal.on{display:flex}
 .sheet{width:min(600px,100%);height:auto;max-height:calc(100dvh - 12px);overflow-y:auto;overflow-x:hidden;margin:auto auto 0;background:var(--bg);border-radius:26px 26px 0 0;padding:10px 18px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -8px 40px #0002;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .grabber{width:36px;height:4px;background:#d3d0ca;border-radius:10px;margin:2px auto 18px}
 .sheetHead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}.sheetHead h2{font-size:25px;letter-spacing:-.045em;margin:3px 0 0}.sheetKicker{font-size:10px;letter-spacing:.15em;font-weight:800;color:var(--muted)}.close{width:34px;height:34px;border-radius:50%;background:#e9e7e2;color:#555;font-size:22px}
 .form{display:grid;gap:13px;min-width:0}.field label,.label{display:block;font-size:12px;font-weight:750;color:#444;margin:0 0 6px}
 input,select,textarea{width:100%;max-width:100%;border:1px solid #dedbd4;background:#fff;border-radius:14px;padding:13px;outline:none;color:var(--ink);min-width:0}
-input:focus,select:focus,textarea:focus{border-color:#aaa59d;box-shadow:0 0 0 3px #00000008}
+input:focus,select:focus,textarea:focus{border-color:#aaa59d;box-shadow:0 0 0 3px #007aff12}
 textarea{min-height:82px;resize:vertical}
 .grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .segment{display:grid;grid-template-columns:1fr 1fr;gap:6px}.segment button{height:46px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#777;font-weight:750}.segment button.on{background:var(--blue);border-color:var(--blue);color:#fff}
-.choice{width:100%;display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;text-align:left}.choiceIcon{width:38px;height:38px;border-radius:12px;background:#f1f0ec;display:grid;place-items:center;font-size:20px}.choice strong{display:block;font-size:15px}.choice small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.choice{width:100%;display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;text-align:left}.choiceIcon{width:38px;height:38px;border-radius:12px;background:#f1f0ec;display:grid;place-items:center;font-size:20px}.choice:first-child .choiceIcon{background:var(--soft);color:var(--blue)}.choice:last-child .choiceIcon{background:var(--softPurple);color:var(--purple)}.choice strong{display:block;font-size:15px}.choice small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 .actions{display:grid;grid-template-columns:1fr 1.35fr;gap:8px;margin-top:4px;position:sticky;bottom:0;padding-top:10px;background:linear-gradient(var(--bg),var(--bg) 70%);z-index:3}.action{height:48px;border-radius:14px;font-weight:800}.cancel{background:#fff;color:#555}.save{background:var(--ink);color:#fff}
 .toggleRow{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px;background:#fff;border:1px solid var(--line);border-radius:15px;text-align:left}.toggleRow strong{font-size:14px}.toggleRow small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.toggle{width:42px;height:25px;border-radius:20px;background:#d7d5d0;padding:2px;flex:none}.toggle i{display:block;width:21px;height:21px;background:#fff;border-radius:50%;transition:.18s;box-shadow:0 1px 3px #0002}.toggleRow.on .toggle{background:var(--blue)}.toggleRow.on .toggle i{transform:translateX(17px)}
-.note{font-size:11px;color:var(--muted);margin-top:-6px}.error{font-size:12px;color:var(--red);min-height:15px}
-.hidden{display:none!important}.paymentSummary{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px 15px;font-size:13px;color:var(--muted)}.paymentSummary strong{font-size:18px;color:var(--ink)}
+.note{font-size:11px;color:var(--muted);margin-top:-6px}.paymentHint{display:grid;grid-template-columns:auto auto 12px auto auto;align-items:center;gap:5px;margin-top:7px;color:var(--muted);font-size:9px;letter-spacing:.04em}.paymentHint b{font-size:11px;color:var(--ink);letter-spacing:0}.error{font-size:12px;color:var(--red);min-height:15px}
+.hidden{display:none!important}.paymentSummary{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#fff,#f3efff);border:1px solid #e2dafb;border-radius:16px;padding:14px 15px;font-size:13px;color:#6f687e}.paymentSummary strong{font-size:19px;color:var(--ink);letter-spacing:-.03em}
 @media(max-width:420px){.wrap{padding-left:13px;padding-right:13px}.event{grid-template-columns:50px minmax(0,1fr) auto;padding-left:13px;padding-right:13px}.event .rowBtns{flex-direction:column}.days{gap:1px}.day{padding-left:1px;padding-right:1px}.day b{font-size:17px}.grid2{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.sheet{padding-left:14px;padding-right:14px}.sheetHead{margin-bottom:16px}.sheetHead h2{font-size:23px}.maps{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.choice{padding:13px}.actions .action{min-width:0}}
 </style>
 </head>
@@ -100,7 +100,7 @@ textarea{min-height:82px;resize:vertical}
 <div><label class="label">CURRENCY</label><div class="segment" id="currencyChoices"><button type="button" data-currency="EUR">€ EUR</button><button type="button" data-currency="MUR">Rs MUR</button></div></div>
 <div><label class="label">PAID BY</label><div class="segment" id="payerChoices"><button type="button" data-payer="Maria">Maria</button><button type="button" data-payer="Dil">Dil</button></div></div>
 <button type="button" class="toggleRow" id="partialToggle"><span><strong>Not fully paid</strong><small>For deposits and reservations.</small></span><span class="toggle"><i></i></span></button>
-<div id="remainingBox" class="hidden field"><label>STILL TO PAY</label><input id="expenseRemaining" type="number" min="0" step=".01" inputmode="decimal" placeholder="0"><div class="note">Example: paid €200 now, €300 still to pay.</div></div>
+<div id="remainingBox" class="hidden field"><label>STILL TO PAY</label><input id="expenseRemaining" type="number" min="0" step=".01" inputmode="decimal" placeholder="0"><div class="paymentHint"><span>PAID NOW</span><b id="paidNowPreview">€0</b><span>+</span><span>STILL TO PAY</span><b id="stillPreview">€0</b></div></div>
 <div id="paymentSummary" class="paymentSummary hidden"><span>Total cost</span><strong id="totalCostPreview">€0</strong></div>
 <div class="note" id="rateText"></div><div class="error" id="expenseError"></div>
 <div class="actions"><button type="button" class="action cancel" id="expenseCancel">Cancel</button><button class="action save">Save expense</button></div>
@@ -155,11 +155,11 @@ function expenseChoice(){
  $("partialToggle").classList.toggle("on",partial);
  if(partial){
    const paid=+$("expensePaid").value||0, rem=+$("expenseRemaining").value||0, c=f.dataset.currency||"EUR";
-   $("totalCostPreview").textContent=eur(toEur(paid+rem,c));
+   $("totalCostPreview").textContent=eur(toEur(paid+rem,c));$("paidNowPreview").textContent=eur(toEur(paid,c));$("stillPreview").textContent=eur(toEur(rem,c));
  }
 }
 function expensePreview(){
- const f=$("expenseForm"),c=f.dataset.currency||"EUR";
+ const f=$("expenseForm"),c=f.dataset.currency||"EUR";$("paidNowPreview").textContent=eur(toEur(+$("expensePaid").value||0,c));$("stillPreview").textContent=eur(toEur(+$("expenseRemaining").value||0,c));
  $("rateText").textContent=c==="MUR"?"1 MUR ≈ "+rate.toFixed(6)+" EUR · only the amount paid counts toward the split":"";
  expenseChoice();
 }
