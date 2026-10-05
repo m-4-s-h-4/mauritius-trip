@@ -1,17 +1,226 @@
-<!doctype html><html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mauritius ’26</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f4f2ed;color:#171715;font:15px -apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif}.wrap{max-width:720px;margin:auto;padding:28px 18px 90px}h1{font-size:42px;letter-spacing:-.06em;margin:5px 0}.muted{color:#777}.nav{display:flex;gap:8px;margin:24px 0}.nav button,.day,.add,.save,.maps{border:0;border-radius:14px;padding:11px 15px;background:#fff;font:inherit;font-weight:650}.nav .on,.save,.add{background:#171715;color:#fff}.days{display:flex;gap:7px;overflow:auto}.day{min-width:64px;text-align:left}.day.on{background:#0d5148;color:#fff}.card{background:#fff;border:1px solid #e5e1d9;border-radius:20px;padding:16px;margin:12px 0}.event,.expense{padding:14px 0;border-bottom:1px solid #eee}.event:last-child,.expense:last-child{border:0}.event{display:grid;grid-template-columns:58px 1fr auto;gap:10px}.event h3{margin:0 0 4px}.time{font-weight:700}.maps{display:inline-block;margin-top:5px;background:#e8f0ed;color:#0d5148;text-decoration:none}.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fff;border:1px solid #e5e1d9;border-radius:18px;padding:15px}.stat strong{display:block;font-size:24px;margin-top:4px}.balance{background:#0d5148;color:#fff;border-radius:20px;padding:18px;margin:12px 0}.balance strong{display:block;font-size:24px}.fab{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border:0;border-radius:50%;background:#171715;color:#fff;font-size:28px}.modal{display:none;position:fixed;inset:0;background:#0007;align-items:end}.modal.on{display:flex}.sheet{background:#f4f2ed;width:100%;max-width:560px;margin:auto;padding:20px;border-radius:24px 24px 0 0}.form{display:grid;gap:10px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}input,select,textarea{width:100%;padding:12px;margin-top:5px;border:1px solid #ddd8cf;border-radius:12px;background:#fff;font:inherit}textarea{min-height:70px}.actions{display:flex;justify-content:flex-end;gap:8px}.ghost{border:0;background:#fff;padding:11px 15px;border-radius:14px}.view{display:none}.view.on{display:block}.status{font-size:12px;margin-top:8px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#37a36f;margin-right:5px}</style>
-<div class="wrap"><div class="muted">OUR ISLAND TRIP</div><h1>Mauritius ’26</h1><div class="muted">13–21 October · Maria + Dil</div><div class="status"><span class="dot"></span><span id="status">Syncing</span></div>
-<div class="nav"><button class="on" data-v="schedule">Schedule</button><button data-v="expenses">Expenses</button></div>
-<section id="schedule" class="view on"><div class="days" id="days"></div><div class="card" id="events"></div></section>
-<section id="expenses" class="view"><div class="summary"><div class="stat"><span class="muted">Maria paid</span><strong id="m">€0</strong></div><div class="stat"><span class="muted">Dil paid</span><strong id="d">€0</strong></div></div><div class="balance" id="bal"></div><div class="card" id="expensesList"></div></section></div>
-<button class="fab" id="fab">+</button>
-<div class="modal" id="modal"><div class="sheet"><h2>Add activity</h2><form class="form" id="form"><label>Name<input id="name" required placeholder="Whale swimming"></label><div class="row"><label>Day<select id="day"></select></label><label>Time<input id="time" type="time"></label></div><label>Location<input id="loc"></label><label>Google Maps link<input id="maps" type="url"></label><label>Notes<textarea id="notes"></textarea></label><div class="row"><label>Cost €<input id="cost" type="number" min="0" step=".01"></label><label>Paid by<select id="payer"><option>Maria</option><option>Dil</option></select></label></div><div class="actions"><button type="button" class="ghost" id="cancel">Cancel</button><button class="save">Save</button></div></form></div></div>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f2ed">
+<title>Mauritius ’26</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f4f2ed;--card:#fff;--ink:#171715;--muted:#77736c;--line:#e6e1d8;--green:#0d5148;--green2:#e8f0ed}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px -apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.wrap{max-width:760px;margin:auto;padding:24px 16px calc(105px + env(safe-area-inset-bottom))}
+.header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:22px}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+h1{font-size:40px;line-height:.95;letter-spacing:-.06em;margin:7px 0}
+.subtitle{color:var(--muted)}
+.status{font-size:12px;color:var(--muted);white-space:nowrap}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#37a36f;margin-right:5px}
+.topnav{display:grid;grid-template-columns:1fr 1fr;background:#e8e5df;border-radius:15px;padding:3px;margin-bottom:16px}
+.topnav button{border:0;background:transparent;padding:10px;border-radius:12px;font-weight:700;color:var(--muted)}
+.topnav .on{background:#fff;color:var(--ink);box-shadow:0 1px 4px #0000000d}
+.view{display:none}.view.on{display:block}
+.calendar{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;margin-bottom:12px}
+.calendarHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.calendarTitle{font-weight:750}.calendarHint{font-size:12px;color:var(--muted)}
+.days{display:grid;grid-template-columns:repeat(9,1fr);gap:5px}
+.day{border:0;background:transparent;border-radius:14px;padding:9px 3px;color:var(--muted);min-width:0}
+.day .dow{font-size:10px;font-weight:700;text-transform:uppercase}.day b{display:block;font-size:18px;color:var(--ink);margin-top:3px}
+.day.on{background:var(--green);color:#fff}.day.on b{color:#fff}.day.on .dow{color:#d8eeea}
+.day.has:after{content:"";display:block;width:4px;height:4px;border-radius:50%;background:var(--green);margin:5px auto 0}.day.on.has:after{background:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;margin:12px 0}
+.sectionHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.sectionHead h2{font-size:18px;margin:0;letter-spacing:-.03em}
+.event{display:grid;grid-template-columns:56px 1fr auto;gap:11px;padding:15px 0;border-bottom:1px solid #eee}
+.event:last-child{border-bottom:0}.time{font-weight:750;font-size:14px;padding-top:2px}.event h3{margin:0 0 5px;font-size:16px}.muted{color:var(--muted)}
+.maps{display:inline-flex;margin-top:8px;background:var(--green2);color:var(--green);text-decoration:none;border-radius:10px;padding:7px 9px;font-weight:650;font-size:13px}
+.eventMeta{margin-top:7px;color:var(--muted);font-size:13px}.delete{border:0;background:transparent;color:#aaa;font-size:20px;padding:0 3px}
+.empty{text-align:center;padding:36px 15px;color:var(--muted)}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}.stat strong{display:block;font-size:24px;margin-top:4px}
+.balance{background:var(--green);color:#fff;border-radius:20px;padding:17px;margin:12px 0}.balance strong{display:block;font-size:25px;margin-top:3px}
+.expense{padding:14px 0;border-bottom:1px solid #eee}.expense:last-child{border:0}.expenseTitle{font-weight:700}.expenseRight{float:right;text-align:right}.expenseEur{font-weight:750}.expenseMur{font-size:12px;color:var(--muted);margin-top:2px}
+.fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));width:58px;height:58px;border:0;border-radius:50%;background:var(--ink);color:#fff;font-size:29px;box-shadow:0 8px 25px #0002;z-index:5}
+.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(760px,100%);height:64px;background:#ffffffeb;backdrop-filter:blur(15px);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;z-index:4;padding-bottom:env(safe-area-inset-bottom)}
+.bottom button{border:0;background:transparent;font-weight:700;color:var(--muted);height:48px}.bottom .plus{justify-self:center;width:50px;height:50px;border-radius:50%;background:var(--ink);color:#fff;font-size:27px}
+.modal{display:none;position:fixed;inset:0;background:#0008;align-items:flex-end;z-index:10}.modal.on{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:600px;margin:auto;padding:20px 18px calc(22px + env(safe-area-inset-bottom));border-radius:26px 26px 0 0;max-height:90vh;overflow:auto}
+.sheet h2{margin:0 0 16px;font-size:25px;letter-spacing:-.04em}
+.form{display:grid;gap:11px}.form label{font-weight:650;font-size:13px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select,textarea{width:100%;padding:13px;margin-top:5px;border:1px solid #ddd8cf;border-radius:13px;background:#fff;outline:none}input:focus,select:focus,textarea:focus{border-color:#aaa}
+textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:3px}
+.ghost,.save{border:0;padding:12px 16px;border-radius:13px;font-weight:700}.ghost{background:#fff}.save{background:var(--ink);color:#fff}
+.choiceGrid{display:grid;gap:10px}.choice{border:1px solid var(--line);background:#fff;border-radius:18px;padding:17px;text-align:left}.choice b{display:block;font-size:17px;margin-bottom:3px}.choice span{color:var(--muted)}
+.currency{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}.currencyBox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}.currencyLabel{font-size:11px;color:var(--muted);font-weight:700}.currencyValue{font-size:20px;font-weight:750;margin-top:3px}.rate{font-size:12px;color:var(--muted);margin-top:-4px}
+@media(max-width:560px){.days{gap:2px}.day{padding:8px 1px}.day b{font-size:17px}.event{grid-template-columns:48px 1fr auto}.header{align-items:center}h1{font-size:35px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div><div class="kicker">OUR ISLAND TRIP</div><h1>Mauritius ’26</h1><div class="subtitle">13–21 October · Maria + Dil</div></div>
+    <div class="status"><span class="dot"></span><span id="status">Syncing</span></div>
+  </div>
+
+  <div class="topnav">
+    <button class="on" data-v="schedule">Schedule</button>
+    <button data-v="expenses">Expenses</button>
+  </div>
+
+  <section id="schedule" class="view on">
+    <div class="calendar">
+      <div class="calendarHead"><div class="calendarTitle" id="selectedDate"></div><div class="calendarHint">Tap a day</div></div>
+      <div class="days" id="days"></div>
+    </div>
+    <div class="card" id="events"></div>
+  </section>
+
+  <section id="expenses" class="view">
+    <div class="summary">
+      <div class="stat"><span class="muted">Maria paid</span><strong id="m">€0</strong></div>
+      <div class="stat"><span class="muted">Dil paid</span><strong id="d">€0</strong></div>
+    </div>
+    <div class="balance" id="bal"></div>
+    <div class="card" id="expensesList"></div>
+  </section>
+</div>
+
+<button class="fab" id="fab" aria-label="Add">+</button>
+<nav class="bottom">
+  <button data-v="schedule">Schedule</button>
+  <button class="plus" id="bottomPlus">+</button>
+  <button data-v="expenses">Expenses</button>
+</nav>
+
+<div class="modal" id="choiceModal"><div class="sheet">
+  <h2>Add to trip</h2>
+  <div class="choiceGrid">
+    <button class="choice" id="addActivity"><b>＋ Activity</b><span>Add something to the daily schedule</span></button>
+    <button class="choice" id="addExpense"><b>＋ Expense</b><span>Record something one of you paid for</span></button>
+    <button class="ghost" id="choiceCancel">Cancel</button>
+  </div>
+</div></div>
+
+<div class="modal" id="activityModal"><div class="sheet">
+  <h2>Add activity</h2>
+  <form class="form" id="activityForm">
+    <label>Name<input id="name" required placeholder="Whale swimming"></label>
+    <div class="row"><label>Day<select id="day"></select></label><label>Time<input id="time" type="time"></label></div>
+    <label>Location<input id="loc" placeholder="Black River"></label>
+    <label>Google Maps link<input id="maps" type="url" placeholder="https://maps.google.com/..."></label>
+    <label>Notes<textarea id="notes" placeholder="Booking details, meeting point…"></textarea></label>
+    <div class="row"><label>Cost (EUR)<input id="cost" type="number" min="0" step=".01" placeholder="0"></label><label>Paid by<select id="payer"><option>Maria</option><option>Dil</option></select></label></div>
+    <div class="actions"><button type="button" class="ghost" id="activityCancel">Cancel</button><button class="save">Save activity</button></div>
+  </form>
+</div></div>
+
+<div class="modal" id="expenseModal"><div class="sheet">
+  <h2>Add expense</h2>
+  <form class="form" id="expenseForm">
+    <label>Title<input id="expenseTitle" required placeholder="Lunch, taxi, boat tour…"></label>
+    <div class="currency">
+      <label>Mauritian rupees (MUR)<input id="mur" type="number" min="0" step=".01" required placeholder="1500"></label>
+      <div class="currencyBox"><div class="currencyLabel">EURO EQUIVALENT</div><div class="currencyValue" id="eurPreview">€0.00</div></div>
+    </div>
+    <div class="rate" id="rateText">Getting live MUR → EUR rate…</div>
+    <div class="row"><label>Day<select id="expenseDay"></select></label><label>Paid by<select id="expensePayer"><option>Maria</option><option>Dil</option></select></label></div>
+    <div class="actions"><button type="button" class="ghost" id="expenseCancel">Cancel</button><button class="save">Save expense</button></div>
+  </form>
+</div></div>
+
 <script>
-const API="https://flcnidtinfhpjdvqvegl.supabase.co/functions/v1/trip-api",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsY25pZHRpbmZocGpkdnF2ZWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExOTkwMTAsImV4cCI6MjEwNjc3NTAxMH0.jBWofh1-jw_8tNAJJsFDigNpU2LT-FM6zlTHTE7o9h0";
-let S={people:["Maria","Dil"],events:[],expenses:[]},sel="2026-10-13";const dates=Array.from({length:9},(_,i)=>new Date(Date.UTC(2026,9,13+i)).toISOString().slice(0,10));const $=id=>document.getElementById(id),eur=n=>"€"+(+n||0).toFixed(2).replace(".00","");const esc=x=>String(x??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-async function api(method="GET",body){let r=await fetch(API,{method,headers:{"Authorization":"Bearer "+KEY,"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});if(!r.ok)throw Error(await r.text());return r.json()}
-function render(){ $("days").innerHTML=dates.map(d=>{let x=new Date(d+"T12:00:00");return '<button class="day '+(d==sel?"on":"")+'" data-d="'+d+'">'+x.toLocaleDateString("en-GB",{weekday:"short"})+"<br><b>"+x.getDate()+"</b></button>"}).join("");document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{sel=b.dataset.d;render()});let es=S.events.filter(e=>e.day==sel).sort((a,b)=>(a.time||"").localeCompare(b.time||""));$("events").innerHTML=es.length?es.map(e=>'<div class="event"><div class="time">'+(e.time||"—")+'</div><div><h3>'+esc(e.name)+'</h3><div class="muted">'+esc(e.location||"")+'</div>'+(e.maps?'<a class="maps" target="_blank" href="'+esc(e.maps)+'">Open in Google Maps ↗</a>':"")+(e.notes?'<div class="muted">'+esc(e.notes)+'</div>':"")+(e.cost?'<div class="muted">'+eur(e.cost)+" · "+esc(e.payer)+"</div>":"")+'</div><button onclick="removeEvent(\''+e.id+'\')">×</button></div>').join(""):'<div class="muted" style="padding:30px;text-align:center">Nothing planned yet.</div>';let m=0,d=0;S.expenses.forEach(e=>e.payer=="Maria"?m+=+e.amount:d+=+e.amount);$("m").textContent=eur(m);$("d").textContent=eur(d);let b=(m-d)/2;$("bal").innerHTML=b==0?"<span>All even</span><strong>€0 owed</strong>":b>0?"<span>Dil owes Maria</span><strong>"+eur(b)+"</strong>":"<span>Maria owes Dil</span><strong>"+eur(-b)+"</strong>";$("expensesList").innerHTML=S.expenses.length?S.expenses.slice().reverse().map(e=>'<div class="expense"><b>'+esc(e.name)+'</b><br><span class="muted">'+esc(e.payer)+'</span><strong style="float:right">'+eur(e.amount)+'</strong></div>').join(""):'<div class="muted" style="padding:30px;text-align:center">No expenses yet.</div>'}
-async function save(){ $("status").textContent="Saving…";try{await api("PUT",S);$("status").textContent="Synced"}catch(e){$("status").textContent="Save failed";console.error(e)}}async function load(){try{let x=await api();S={people:x.people||["Maria","Dil"],events:x.events||[],expenses:x.expenses||[]};$("status").textContent="Synced";render()}catch(e){$("status").textContent="Connection failed";console.error(e)}}
-$("day").innerHTML=dates.map(d=>'<option value="'+d+'">'+new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"})+"</option>").join("");$("fab").onclick=()=>{$("modal").classList.add("on");$("day").value=sel};$("cancel").onclick=()=>$("modal").classList.remove("on");
-$("form").onsubmit=async e=>{e.preventDefault();let c=+$("cost").value||0,x={id:crypto.randomUUID(),name:$("name").value,day:$("day").value,time:$("time").value,location:$("loc").value,maps:$("maps").value,notes:$("notes").value,cost:c,payer:$("payer").value};S.events.push(x);if(c)S.expenses.push({id:crypto.randomUUID(),name:x.name,amount:c,payer:x.payer,date:x.day});sel=x.day;$("modal").classList.remove("on");render();await save()};window.removeEvent=async id=>{S.events=S.events.filter(x=>x.id!==id);render();await save()};document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("on"));b.classList.add("on");document.querySelectorAll(".view").forEach(x=>x.classList.remove("on"));$(b.dataset.v).classList.add("on")});load();
-</script></html>
+const API="https://flcnidtinfhpjdvqvegl.supabase.co/functions/v1/trip-api";
+const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsY25pZHRpbmZocGpkdnF2ZWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExOTkwMTAsImV4cCI6MjEwNjc3NTAxMH0.jBWofh1-jw_8tNAJJsFDigNpU2LT-FM6zlTHTE7o9h0";
+let S={people:["Maria","Dil"],events:[],expenses:[]},sel="2026-10-13",murToEur=0.0101,lastUpdated="";
+const dates=Array.from({length:9},(_,i)=>new Date(Date.UTC(2026,9,13+i)).toISOString().slice(0,10));
+const $=id=>document.getElementById(id);
+const eur=n=>"€"+(+n||0).toFixed(2).replace(".00","");
+const esc=x=>String(x??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dateLabel=d=>new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+const shortLabel=d=>new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+
+async function api(method="GET",body){
+  const r=await fetch(API,{method,headers:{"Authorization":"Bearer "+KEY,"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});
+  if(!r.ok)throw Error(await r.text()); return r.json();
+}
+async function getRate(){
+  try{
+    const r=await fetch("https://open.er-api.com/v6/latest/MUR");
+    const x=await r.json();
+    if(x && x.rates && x.rates.EUR){murToEur=x.rates.EUR; $("rateText").textContent="Live rate · 1 MUR = "+murToEur.toFixed(6)+" EUR"; updatePreview(); return;}
+  }catch(e){}
+  $("rateText").textContent="Using fallback rate · 1 MUR = "+murToEur.toFixed(4)+" EUR"; updatePreview();
+}
+function updatePreview(){$("eurPreview").textContent=eur((+$("mur").value||0)*murToEur)}
+function render(){
+  $("days").innerHTML=dates.map(d=>{
+    const x=new Date(d+"T12:00:00"),has=S.events.some(e=>e.day===d);
+    return '<button class="day '+(d===sel?"on ":"")+(has?"has":"")+'" data-d="'+d+'"><span class="dow">'+x.toLocaleDateString("en-GB",{weekday:"short"})+'</span><b>'+x.getDate()+'</b></button>';
+  }).join("");
+  document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{sel=b.dataset.d;render()});
+  $("selectedDate").textContent=dateLabel(sel);
+  const es=S.events.filter(e=>e.day===sel).sort((a,b)=>(a.time||"99:99").localeCompare(b.time||"99:99"));
+  $("events").innerHTML=es.length
+    ? '<div class="sectionHead"><h2>Plan</h2><span class="muted">'+es.length+' '+(es.length===1?"thing":"things")+'</span></div>'+es.map(e=>
+      '<div class="event"><div class="time">'+(e.time||"All day")+'</div><div><h3>'+esc(e.name)+'</h3>'+(e.location?'<div class="muted">'+esc(e.location)+'</div>':"")+
+      (e.maps?'<a class="maps" target="_blank" rel="noopener" href="'+esc(e.maps)+'">Open in Google Maps ↗</a>':"")+
+      (e.notes?'<div class="eventMeta">'+esc(e.notes)+'</div>':"")+
+      (e.cost?'<div class="eventMeta">'+eur(e.cost)+' · '+esc(e.payer||"")+'</div>':"")+
+      '</div><button class="delete" onclick="removeEvent(\''+e.id+'\')" aria-label="Delete">×</button></div>').join("")
+    : '<div class="empty">Nothing planned for this day.<br><span>Use + to add an activity or expense.</span></div>';
+
+  let m=0,d=0; S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount:d+=+e.amount);
+  $("m").textContent=eur(m);$("d").textContent=eur(d);
+  const b=(m-d)/2;
+  $("bal").innerHTML=b===0?"<span>All even</span><strong>€0 owed</strong>":b>0?"<span>Dil owes Maria</span><strong>"+eur(b)+"</strong>":"<span>Maria owes Dil</span><strong>"+eur(-b)+"</strong>";
+  $("expensesList").innerHTML=S.expenses.length
+    ? '<div class="sectionHead"><h2>All expenses</h2><span class="muted">'+S.expenses.length+'</span></div>'+S.expenses.slice().reverse().map(e=>
+      '<div class="expense"><span class="expenseRight"><div class="expenseEur">'+eur(e.amount)+'</div><div class="expenseMur">'+(e.mur?Math.round(e.mur).toLocaleString()+" MUR":"")+'</div></span><div class="expenseTitle">'+esc(e.name)+'</div><span class="muted">'+esc(e.payer)+' · '+esc(e.date||"")+'</span></div>').join("")
+    : '<div class="empty">No expenses yet.</div>';
+}
+async function save(){ $("status").textContent="Saving…";try{const x=await api("PUT",S);lastUpdated=x.updated_at||new Date().toISOString();$("status").textContent="Synced"}catch(e){$("status").textContent="Save failed";console.error(e)}}
+async function load(silent=false){
+  try{const x=await api(); if(!silent || x.updated_at!==lastUpdated){S={people:x.people||["Maria","Dil"],events:x.events||[],expenses:x.expenses||[]};lastUpdated=x.updated_at||"";render()} $("status").textContent="Synced"}catch(e){$("status").textContent="Connection failed";console.error(e)}
+}
+function openChoice(){$("choiceModal").classList.add("on")}
+function closeAll(){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"))}
+function fillDays(){
+  const opts=dates.map(d=>'<option value="'+d+'">'+shortLabel(d)+'</option>').join("");
+  $("day").innerHTML=opts;$("expenseDay").innerHTML=opts;$("day").value=sel;$("expenseDay").value=sel;
+}
+function openActivity(){closeAll();$("activityModal").classList.add("on");fillDays();$("day").value=sel}
+function openExpense(){closeAll();$("expenseModal").classList.add("on");fillDays();$("expenseDay").value=sel;getRate()}
+
+$("fab").onclick=openChoice;$("bottomPlus").onclick=openChoice;$("choiceCancel").onclick=closeAll;
+$("addActivity").onclick=openActivity;$("addExpense").onclick=openExpense;
+$("activityCancel").onclick=closeAll;$("expenseCancel").onclick=closeAll;
+$("mur").oninput=updatePreview;
+document.querySelectorAll(".topnav button,.bottom button[data-v]").forEach(b=>b.onclick=()=>{
+  const v=b.dataset.v;
+  document.querySelectorAll(".topnav button").forEach(x=>x.classList.toggle("on",x.dataset.v===v));
+  document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id===v));
+});
+$("activityForm").onsubmit=async e=>{
+  e.preventDefault();
+  const c=+$("cost").value||0;
+  const x={id:crypto.randomUUID(),name:$("name").value.trim(),day:$("day").value,time:$("time").value,location:$("loc").value.trim(),maps:$("maps").value.trim(),notes:$("notes").value.trim(),cost:c,payer:$("payer").value};
+  S.events.push(x);
+  if(c)S.expenses.push({id:crypto.randomUUID(),name:x.name,amount:c,payer:x.payer,date:x.day,mur:null});
+  sel=x.day;closeAll();render();await save();e.target.reset();
+};
+$("expenseForm").onsubmit=async e=>{
+  e.preventDefault();
+  const mur=+$("mur").value||0,amount=mur*murToEur;
+  if(!murToEur){$("rateText").textContent="Exchange rate unavailable — try again in a moment.";return}
+  const x={id:crypto.randomUUID(),name:$("expenseTitle").value.trim(),amount,payer:$("expensePayer").value,date:$("expenseDay").value,mur};
+  S.expenses.push(x);sel=x.date;closeAll();render();await save();e.target.reset();updatePreview();
+};
+window.removeEvent=async id=>{
+  const event=S.events.find(x=>x.id===id);
+  S.events=S.events.filter(x=>x.id!==id);
+  if(event && event.cost)S.expenses=S.expenses.filter(x=>!(x.name===event.name&&x.date===event.day&&+x.amount===+event.cost));
+  render();await save();
+};
+fillDays();render();load();getRate();setInterval(()=>load(true),10000);
+</script>
+</body>
+</html>
