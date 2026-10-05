@@ -1,145 +1,156 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f4f2ed"><title>Mauritius ’26</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f7f5">
+<title>Mauritius ’26</title>
 <style>
-*{box-sizing:border-box}:root{--bg:#f4f2ed;--card:#fff;--ink:#171715;--muted:#77736c;--line:#e5e0d7;--green:#0d5148}html,body{max-width:100%;overflow-x:hidden}body{margin:0;background:var(--bg);color:var(--ink);font:15px -apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:760px;margin:auto;padding:24px 16px calc(92px + env(safe-area-inset-bottom))}.header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:20px}.kicker{font-size:11px;font-weight:800;letter-spacing:.13em;color:var(--muted)}h1{font-size:39px;line-height:.95;letter-spacing:-.06em;margin:7px 0}.subtitle,.muted{color:var(--muted)}.status{font-size:12px;color:var(--muted);white-space:nowrap}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#37a36f;margin-right:5px}.view{display:none}.view.on{display:block}.calendar,.card,.stat{background:var(--card);border:1px solid var(--line);border-radius:22px}.calendar{padding:14px;margin-bottom:12px}.calendarHead,.sectionHead{display:flex;justify-content:space-between;align-items:center}.calendarHead{margin-bottom:10px}.calendarTitle{font-weight:800}.calendarHint{font-size:12px;color:var(--muted)}.days{display:grid;grid-template-columns:repeat(9,1fr);gap:3px}.day{border:0;background:transparent;border-radius:14px;padding:9px 2px;color:var(--muted)}.day .dow{font-size:10px;font-weight:800;text-transform:uppercase}.day b{display:block;font-size:18px;color:var(--ink);margin-top:3px}.day.on{background:var(--green);color:#fff}.day.on b,.day.on .dow{color:#fff}.day.has:after{content:"";display:block;width:4px;height:4px;border-radius:50%;background:var(--green);margin:5px auto 0}.day.on.has:after{background:#fff}.card{padding:16px;margin:12px 0}.sectionHead h2{font-size:18px;margin:0;letter-spacing:-.03em}.event{display:grid;grid-template-columns:58px 1fr auto;gap:10px;padding:15px 0;border-bottom:1px solid #eee}.event:last-child,.expense:last-child{border:0}.time{font-weight:800}.event h3,.expenseTitle{margin:0 0 5px;font-size:16px;font-weight:800}.maps{display:inline-flex;margin-top:8px;background:#e7f0ed;color:var(--green);text-decoration:none;border-radius:10px;padding:8px 10px;font-weight:700;font-size:13px}.eventMeta,.expenseMeta{margin-top:7px;color:var(--muted);font-size:13px}.empty{text-align:center;padding:38px 15px;color:var(--muted);line-height:1.6}.iconBtn{border:0;background:#f0eee9;color:#444;width:42px;height:42px;border-radius:12px;font-size:18px;margin-left:4px}.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{border-radius:18px;padding:15px}.stat strong{display:block;font-size:24px;margin-top:4px}.balance{background:var(--green);color:#fff;border-radius:20px;padding:17px;margin:12px 0}.balance strong{display:block;font-size:25px;margin-top:3px}.expense{padding:15px 0;border-bottom:1px solid #eee}.expenseGrid{display:grid;grid-template-columns:1fr auto;gap:10px}.expenseAmount{text-align:right;font-weight:800;white-space:nowrap}.badge{display:inline-flex;margin-top:7px;padding:5px 8px;border-radius:8px;font-size:11px;font-weight:800}.paid{background:#e7f0ed;color:var(--green)}.partial{background:#fff1d8;color:#8b5a00}.pending{background:#f0eee9;color:#666}.remaining{margin-top:7px;font-size:13px;font-weight:700;color:#8b5a00}.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(760px,100%);height:70px;background:#ffffffed;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 72px 1fr;align-items:center;z-index:20;padding:0 18px env(safe-area-inset-bottom)}.bottom button{border:0;background:transparent;font-weight:800;color:var(--muted);height:48px}.bottom button.on{color:var(--ink)}.bottom .plus{justify-self:center;width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;font-size:28px}.modal{display:none;position:fixed;inset:0;background:#0008;align-items:flex-end;z-index:30}.modal.on{display:flex}.sheet{background:var(--bg);width:100%;max-width:600px;margin:auto;padding:18px 18px calc(18px + env(safe-area-inset-bottom));border-radius:24px 24px 0 0;max-height:90vh;overflow:auto}.sheet h2{margin:3px 0 0;font-size:25px;letter-spacing:-.04em}.sheetTop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}.closeBtn{border:0;background:#e9e6df;width:36px;height:36px;border-radius:50%;font-size:24px;line-height:1;color:#555}.form{display:grid;gap:11px}.form label{font-weight:700;font-size:13px}input,select,textarea{width:100%;padding:13px;margin-top:5px;border:1px solid #ddd8cf;border-radius:13px;background:#fff;outline:none;font-size:16px;line-height:1.25;min-width:0}.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}textarea{min-height:76px}.actions{display:flex;gap:8px;margin-top:4px}.actions button{flex:1}.ghost,.save{border:0;padding:13px 17px;border-radius:13px;font-weight:800}.ghost{background:#fff}.save{background:var(--ink);color:#fff}.choiceGrid{display:grid;gap:10px}.choice{border:1px solid var(--line);background:#fff;border-radius:18px;padding:17px;text-align:left}.choice b{display:block;font-size:17px;margin-bottom:3px}.choice span{color:var(--muted)}.segmented{display:grid;grid-template-columns:1fr 1fr;gap:6px}.segmented button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px;font-weight:800;color:var(--muted);font-size:14px}.segmented button{border:1px solid var(--line);background:#fff;border-radius:13px;padding:13px 10px;font-weight:800;color:var(--muted)}.segmented button.on{background:var(--green);color:#fff;border-color:var(--green)}.helper{font-size:12px;color:var(--muted);min-height:16px}.hidden{display:none!important}.amountRow{display:grid;grid-template-columns:minmax(0,1fr) 145px;gap:10px;align-items:end}.fieldLabel,.form>label,.amountRow label{font-weight:700;font-size:13px}.partialToggle{width:100%;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:#fff;border-radius:14px;padding:13px;font-weight:700;text-align:left}.toggle{width:38px;height:23px;border-radius:20px;background:#ddd8cf;position:relative}.toggle:after{content:"";position:absolute;width:19px;height:19px;top:2px;left:2px;border-radius:50%;background:#fff;transition:.18s}.partialToggle.on .toggle{background:var(--green)}.partialToggle.on .toggle:after{left:17px}.error{color:#9b3c32;font-size:13px}@media(max-width:560px){.days{gap:1px}.day{padding:8px 1px}.day b{font-size:17px}h1{font-size:35px}.event{grid-template-columns:50px 1fr auto}}
-</style></head><body><div class="wrap">
-<header class="header"><div><div class="kicker">OUR ISLAND TRIP</div><h1>Mauritius ’26</h1><div class="subtitle">13–21 October · Maria + Dil</div></div><div class="status"><span class="dot"></span><span id="status">Connecting</span></div></header>
-<section id="schedule" class="view on"><div class="calendar"><div class="calendarHead"><div class="calendarTitle" id="selectedDate"></div><div class="calendarHint">Tap a day</div></div><div class="days" id="days"></div></div><div class="card" id="events"></div></section>
-<section id="expenses" class="view"><div class="summary"><div class="stat"><span class="muted">Maria paid</span><strong id="m">€0</strong></div><div class="stat"><span class="muted">Dil paid</span><strong id="d">€0</strong></div></div><div class="balance" id="bal"></div><div class="card" id="expensesList"></div></section></div>
-<nav class="bottom"><button data-v="schedule" class="on">Schedule</button><button class="plus" id="plus">+</button><button data-v="expenses">Expenses</button></nav>
-<div class="modal" id="choiceModal"><div class="sheet"><h2>Add to trip</h2><div class="choiceGrid"><button class="choice" id="addActivity"><b>＋ Activity</b><span>Add something to the daily schedule</span></button><button class="choice" id="addExpense"><b>＋ Expense</b><span>Record something one of you paid for</span></button><button class="ghost" id="choiceCancel">Cancel</button></div></div></div>
-<div class="modal" id="activityModal"><div class="sheet"><h2 id="activityHeading">Add activity</h2><form class="form" id="activityForm"><label>Name<input id="name" required placeholder="Whale swimming"></label><div class="row"><label>Day<select id="day"></select></label><label>Time<input id="time" type="time"></label></div><label>Location<input id="loc" placeholder="Black River"></label><label>Google Maps link<input id="maps" type="url" placeholder="https://maps.google.com/..."></label><label>Notes<textarea id="notes" placeholder="Booking details, meeting point…"></textarea></label><div class="row"><label>Cost (EUR)<input id="cost" type="number" min="0" step=".01" placeholder="0"></label><label>Paid by<select id="payer"><option>Maria</option><option>Dil</option></select></label></div><div class="actions"><button type="button" class="ghost" id="activityCancel">Cancel</button><button class="save">Save activity</button></div></form></div></div>
-<div class="modal" id="expenseModal"><div class="sheet expenseSheet">
-  <div class="sheetTop"><div><div class="kicker">EXPENSE</div><h2 id="expenseHeading">Add expense</h2></div><button type="button" class="closeBtn" id="expenseClose">×</button></div>
-  <form class="form" id="expenseForm">
-    <label>What was it?<input id="expenseTitle" required placeholder="Lunch, whale tour, car…"></label>
-    <div class="amountRow"><label>Amount paid<input id="expensePaid" type="number" min="0" step=".01" inputmode="decimal" required placeholder="0"></label><div><div class="fieldLabel">Currency</div><div class="segmented" id="currencyChoices"><button type="button" data-currency="EUR">€ EUR</button><button type="button" data-currency="MUR">Rs MUR</button></div></div></div>
-    <label>Paid by</label>
-    <div class="segmented" id="payerChoices"><button type="button" data-payer="Maria">Maria</button><button type="button" data-payer="Dil">Dil</button></div>
-    <button type="button" class="partialToggle" id="partialToggle"><span>Reservation / deposit</span><span class="toggle" id="partialSwitch"></span></button>
-    <div id="totalBox" class="hidden"><label>Total amount due<input id="expenseTotal" type="number" min="0" step=".01" inputmode="decimal" placeholder="0"></label></div>
-    <div class="helper" id="rateText"></div><div class="error" id="expenseError"></div>
-    <div class="actions"><button type="button" class="ghost" id="expenseCancel">Cancel</button><button class="save">Save expense</button></div>
-  </form>
-</div></div>
+*{box-sizing:border-box}
+:root{--bg:#f7f7f5;--card:#fff;--ink:#111;--muted:#8a8882;--line:#e7e5e0;--green:#176b5f;--soft:#edf5f2;--red:#b94b42}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select,textarea{font:inherit;font-size:16px}
+button{border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.98)}
+a{color:inherit}
+.wrap{width:min(680px,100%);margin:auto;padding:22px 16px calc(100px + env(safe-area-inset-bottom))}
+.top{display:flex;justify-content:space-between;align-items:flex-start;margin:5px 2px 24px}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:.16em;color:var(--muted)}
+h1{font-size:38px;line-height:1;letter-spacing:-.055em;margin:7px 0 8px}
+.subtitle{font-size:14px;color:var(--muted)}
+.sync{font-size:11px;color:var(--muted);padding-top:6px}.syncDot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#55a47d;margin-right:5px}
+.view{display:none}.view.on{display:block}
+.dayCard{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:14px;margin-bottom:14px}
+.monthRow{display:flex;justify-content:space-between;align-items:center;margin:0 2px 12px}
+.monthRow strong{font-size:15px}.monthRow span{font-size:12px;color:var(--muted)}
+.days{display:grid;grid-template-columns:repeat(9,1fr);gap:3px}
+.day{background:transparent;border-radius:15px;padding:9px 2px 8px;color:var(--muted)}
+.day b{display:block;font-size:18px;color:var(--ink);margin-top:4px}
+.day .dow{font-size:9px;font-weight:800;text-transform:uppercase}
+.day.on{background:var(--ink);color:#fff}.day.on b,.day.on .dow{color:#fff}
+.day.has:after{content:"";display:block;width:4px;height:4px;border-radius:50%;background:var(--green);margin:5px auto 0}.day.on.has:after{background:#fff}
+.sectionTitle{display:flex;align-items:center;justify-content:space-between;margin:22px 3px 10px}
+.sectionTitle h2{font-size:20px;letter-spacing:-.04em;margin:0}.sectionTitle span{font-size:12px;color:var(--muted)}
+.list{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.event{display:grid;grid-template-columns:62px 1fr auto;gap:12px;padding:17px 16px;border-bottom:1px solid var(--line)}
+.event:last-child{border-bottom:0}.time{font-weight:700;font-size:13px;color:var(--muted);padding-top:2px}
+.event h3{font-size:16px;letter-spacing:-.015em;margin:0 0 4px}.meta{font-size:13px;color:var(--muted);line-height:1.45}
+.maps{display:inline-flex;margin-top:9px;padding:7px 10px;border-radius:10px;background:var(--soft);color:var(--green);font-size:12px;font-weight:700;text-decoration:none}
+.rowBtns{display:flex;gap:5px}.mini{width:32px;height:32px;border-radius:10px;background:#f1f0ed;color:#555;font-size:15px}
+.empty{padding:40px 20px;text-align:center;color:var(--muted);font-size:14px;line-height:1.55}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px}.stat span{font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:25px;letter-spacing:-.04em;margin-top:6px}
+.balance{margin-top:10px;padding:18px 19px;border-radius:21px;background:var(--ink);color:#fff}.balance span{font-size:12px;opacity:.65}.balance strong{display:block;font-size:24px;margin-top:4px;letter-spacing:-.04em}
+.expense{display:flex;justify-content:space-between;gap:12px;padding:17px 16px;border-bottom:1px solid var(--line)}.expense:last-child{border-bottom:0}.expenseTitle{font-weight:750;font-size:16px}.expenseMeta{font-size:12px;color:var(--muted);margin-top:5px}.expenseRight{text-align:right}.expenseRight strong{font-size:16px}.badge{display:inline-block;margin-top:7px;padding:4px 7px;border-radius:7px;font-size:10px;font-weight:800}.paid{background:var(--soft);color:var(--green)}.partial{background:#fff3dc;color:#986600}.pending{background:#f0efec;color:#777}.remaining{font-size:12px;color:#986600;margin-top:6px}
+.bottom{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(680px,100%);height:78px;padding:8px 22px env(safe-area-inset-bottom);background:rgba(255,255,255,.88);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 64px 1fr;align-items:center}
+.tab{height:48px;background:none;color:#92908a;font-size:12px;font-weight:750}.tab.on{color:var(--ink)}.plus{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#fff;font-size:27px;justify-self:center;box-shadow:0 6px 18px #0002}
+.modal{display:none;position:fixed;z-index:50;inset:0;background:rgba(0,0,0,.32);align-items:flex-end}.modal.on{display:flex}
+.sheet{width:min(600px,100%);max-height:90dvh;overflow:auto;margin:auto auto 0;background:var(--bg);border-radius:26px 26px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -8px 40px #0002}
+.grabber{width:36px;height:4px;background:#d3d0ca;border-radius:10px;margin:2px auto 18px}
+.sheetHead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}.sheetHead h2{font-size:25px;letter-spacing:-.045em;margin:3px 0 0}.sheetKicker{font-size:10px;letter-spacing:.15em;font-weight:800;color:var(--muted)}.close{width:34px;height:34px;border-radius:50%;background:#e9e7e2;color:#555;font-size:22px}
+.form{display:grid;gap:14px}.field label,.label{display:block;font-size:12px;font-weight:750;color:#444;margin:0 0 6px}
+input,select,textarea{width:100%;border:1px solid #dedbd4;background:#fff;border-radius:14px;padding:13px;outline:none;color:var(--ink);min-width:0}
+input:focus,select:focus,textarea:focus{border-color:#aaa59d;box-shadow:0 0 0 3px #00000008}
+textarea{min-height:82px;resize:vertical}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.segment{display:grid;grid-template-columns:1fr 1fr;gap:6px}.segment button{height:46px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#777;font-weight:750}.segment button.on{background:var(--green);border-color:var(--green);color:#fff}
+.choice{width:100%;display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;text-align:left}.choiceIcon{width:38px;height:38px;border-radius:12px;background:#f1f0ec;display:grid;place-items:center;font-size:20px}.choice strong{display:block;font-size:15px}.choice small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.actions{display:grid;grid-template-columns:1fr 1.35fr;gap:8px;margin-top:3px}.action{height:48px;border-radius:14px;font-weight:800}.cancel{background:#fff;color:#555}.save{background:var(--ink);color:#fff}
+.toggleRow{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px;background:#fff;border:1px solid var(--line);border-radius:15px;text-align:left}.toggleRow strong{font-size:14px}.toggleRow small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.toggle{width:42px;height:25px;border-radius:20px;background:#d7d5d0;padding:2px;flex:none}.toggle i{display:block;width:21px;height:21px;background:#fff;border-radius:50%;transition:.18s;box-shadow:0 1px 3px #0002}.toggleRow.on .toggle{background:var(--green)}.toggleRow.on .toggle i{transform:translateX(17px)}
+.note{font-size:11px;color:var(--muted);margin-top:-6px}.error{font-size:12px;color:var(--red);min-height:15px}
+.hidden{display:none!important}
+@media(max-width:420px){.wrap{padding-left:13px;padding-right:13px}.event{grid-template-columns:50px 1fr auto;padding-left:13px;padding-right:13px}.days{gap:1px}.day{padding-left:1px;padding-right:1px}.day b{font-size:17px}.grid2{gap:8px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="top"><div><div class="eyebrow">OUR ISLAND TRIP</div><h1>Mauritius ’26</h1><div class="subtitle">13–21 October · Maria + Dil</div></div><div class="sync"><span class="syncDot"></span><span id="status">Connecting</span></div></header>
+
+<section id="schedule" class="view on">
+<div class="dayCard"><div class="monthRow"><strong id="selectedDate"></strong><span>Tap a day</span></div><div class="days" id="days"></div></div>
+<div class="sectionTitle"><h2>Plan</h2><span id="eventCount"></span></div><div class="list" id="events"></div>
+</section>
+
+<section id="expenses" class="view">
+<div class="summary"><div class="stat"><span>Maria paid</span><strong id="m">€0</strong></div><div class="stat"><span>Dil paid</span><strong id="d">€0</strong></div></div>
+<div class="balance" id="bal"></div>
+<div class="sectionTitle"><h2>Expenses</h2><span id="expenseCount"></span></div><div class="list" id="expensesList"></div>
+</section>
+</main>
+
+<nav class="bottom"><button class="tab on" data-v="schedule">Schedule</button><button class="plus" id="plus">+</button><button class="tab" data-v="expenses">Expenses</button></nav>
+
+<div class="modal" id="choiceModal"><div class="sheet"><div class="grabber"></div><div class="sheetHead"><div><div class="sheetKicker">ADD TO TRIP</div><h2>What are we adding?</h2></div><button class="close" id="choiceCancel">×</button></div><div class="form"><button class="choice" id="addActivity"><span class="choiceIcon">＋</span><span><strong>Activity</strong><small>Add something to the daily plan</small></span></button><button class="choice" id="addExpense"><span class="choiceIcon">€</span><span><strong>Expense</strong><small>Track something one of us paid for</small></span></button></div></div></div>
+
+<div class="modal" id="activityModal"><div class="sheet"><div class="grabber"></div><div class="sheetHead"><div><div class="sheetKicker">SCHEDULE</div><h2 id="activityHeading">Add activity</h2></div><button class="close" id="activityClose">×</button></div><form class="form" id="activityForm">
+<div class="field"><label>NAME</label><input id="name" required placeholder="Whale swimming"></div>
+<div class="grid2"><div class="field"><label>DAY</label><select id="day"></select></div><div class="field"><label>TIME</label><input id="time" type="time"></div></div>
+<div class="field"><label>LOCATION</label><input id="loc" placeholder="Black River"></div>
+<div class="field"><label>GOOGLE MAPS LINK</label><input id="maps" type="url" placeholder="Paste a Google Maps link"></div>
+<div class="field"><label>NOTES</label><textarea id="notes" placeholder="Meeting point, booking details…"></textarea></div>
+<div class="grid2"><div class="field"><label>COST · EUR</label><input id="cost" type="number" min="0" step=".01" inputmode="decimal" placeholder="Optional"></div><div class="field"><label>PAID BY</label><select id="payer"><option>Maria</option><option>Dil</option></select></div></div>
+<div class="actions"><button type="button" class="action cancel" id="activityCancel">Cancel</button><button class="action save">Save activity</button></div>
+</form></div></div>
+
+<div class="modal" id="expenseModal"><div class="sheet"><div class="grabber"></div><div class="sheetHead"><div><div class="sheetKicker">EXPENSE</div><h2 id="expenseHeading">Add expense</h2></div><button class="close" id="expenseClose">×</button></div><form class="form" id="expenseForm">
+<div class="field"><label>WHAT WAS IT?</label><input id="expenseTitle" required placeholder="Lunch, whale tour, car…"></div>
+<div class="grid2"><div class="field"><label>AMOUNT PAID</label><input id="expensePaid" type="number" min="0" step=".01" inputmode="decimal" required placeholder="0"></div><div><label class="label">CURRENCY</label><div class="segment" id="currencyChoices"><button type="button" data-currency="EUR">€ EUR</button><button type="button" data-currency="MUR">Rs MUR</button></div></div></div>
+<div><label class="label">PAID BY</label><div class="segment" id="payerChoices"><button type="button" data-payer="Maria">Maria</button><button type="button" data-payer="Dil">Dil</button></div></div>
+<button type="button" class="toggleRow" id="partialToggle"><span><strong>Reservation or deposit</strong><small>Turn on if the full amount hasn't been paid yet.</small></span><span class="toggle"><i></i></span></button>
+<div id="totalBox" class="hidden field"><label>TOTAL AMOUNT DUE</label><input id="expenseTotal" type="number" min="0" step=".01" inputmode="decimal" placeholder="0"></div>
+<div class="note" id="rateText"></div><div class="error" id="expenseError"></div>
+<div class="actions"><button type="button" class="action cancel" id="expenseCancel">Cancel</button><button class="action save">Save expense</button></div>
+</form></div></div>
+
 <script>
 const API="https://flcnidtinfhpjdvqvegl.supabase.co/functions/v1/trip-api",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsY25pZHRpbmZocGpkdnF2ZWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExOTkwMTAsImV4cCI6MjEwNjc3NTAxMH0.jBWofh1-jw_8tNAJJsFDigNpU2LT-FM6zlTHTE7o9h0";
-const $=id=>document.getElementById(id),dates=Array.from({length:9},(_,i)=>new Date(Date.UTC(2026,9,13+i)).toISOString().slice(0,10));let S={people:["Maria","Dil"],events:[],expenses:[]},sel=dates[0],rate=.0185,lastUpdated="",editingStatus="paid";
-const esc=x=>String(x??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),eur=n=>"€"+(+n||0).toFixed(2).replace(/\.00$/,""),uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6),label=d=>new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}),short=d=>new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
-async function api(method="GET",body){let r=await fetch(API,{method,headers:{"Authorization":"Bearer "+KEY,"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});if(!r.ok)throw Error(await r.text());return r.json()}
-async function load(){try{let x=await api();S={people:["Maria","Dil"],events:x.events||[],expenses:x.expenses||[]};lastUpdated=x.updated_at||"";render();$("status").textContent="Synced"}catch(e){$("status").textContent="Offline"}}
-async function save(){ $("status").textContent="Saving…";try{let x=await api("PUT",S);lastUpdated=x.updated_at||"";$("status").textContent="Synced"}catch(e){$("status").textContent="Save failed";console.error(e)}}
-async function refresh(){try{let x=await api();if(x.updated_at!==lastUpdated){S={people:["Maria","Dil"],events:x.events||[],expenses:x.expenses||[]};lastUpdated=x.updated_at||"";render()}$("status").textContent="Synced"}catch(e){$("status").textContent="Offline"}}
-function toEur(v,c){return c==="MUR"?(+v||0)*rate:(+v||0)}function stat(total,paid){return +paid<=0?"pending":+paid>=+total?"paid":"partial"}
+const $=id=>document.getElementById(id);
+const dates=Array.from({length:9},(_,i)=>new Date(Date.UTC(2026,9,13+i)).toISOString().slice(0,10));
+let S={people:["Maria","Dil"],events:[],expenses:[]},sel=dates[0],rate=.0185,lastUpdated="";
+const esc=x=>String(x??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const eur=n=>"€"+(+n||0).toFixed(2).replace(/\.00$/,"");
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const label=d=>new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+const short=d=>new Date(d+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
+async function api(method="GET",body){const r=await fetch(API,{method,headers:{"Authorization":"Bearer "+KEY,"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});if(!r.ok)throw Error(await r.text());return r.json()}
+async function load(){try{const x=await api();S={people:["Maria","Dil"],events:x.events||[],expenses:x.expenses||[]};lastUpdated=x.updated_at||"";render();$("status").textContent="Synced"}catch(e){$("status").textContent="Offline";console.error(e)}}
+async function save(){ $("status").textContent="Saving…";try{const x=await api("PUT",S);lastUpdated=x.updated_at||"";$("status").textContent="Synced"}catch(e){$("status").textContent="Save failed";console.error(e)}}
+async function refresh(){try{const x=await api();if(x.updated_at!==lastUpdated){S={people:["Maria","Dil"],events:x.events||[],expenses:x.expenses||[]};lastUpdated=x.updated_at||"";render()}$("status").textContent="Synced"}catch(e){$("status").textContent="Offline"}}
+function toEur(v,c){return c==="MUR"?(+v||0)*rate:(+v||0)}
+function stat(total,paid){return +paid<=0?"pending":+paid>=+total?"paid":"partial"}
 function render(){
-  $("days").innerHTML=dates.map(d=>{
-    const x=new Date(d+"T12:00:00"),has=S.events.some(e=>e.day===d);
-    return `<button type="button" class="day ${d===sel?"on ":""}${has?"has":""}" data-d="${d}"><span class="dow">${x.toLocaleDateString("en-GB",{weekday:"short"})}</span><b>${x.getDate()}</b></button>`;
-  }).join("");
-  document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{sel=b.dataset.d;render()});
-  $("selectedDate").textContent=label(sel);
-
-  const ev=S.events.filter(e=>e.day===sel).sort((a,b)=>(a.time||"99").localeCompare(b.time||"99"));
-  $("events").innerHTML=ev.length
-    ? `<div class="sectionHead"><h2>Plan</h2><span class="muted">${ev.length} ${ev.length===1?"thing":"things"}</span></div>`+
-      ev.map(e=>`<div class="event">
-        <div class="time">${esc(e.time||"All day")}</div>
-        <div><h3>${esc(e.name)}</h3>
-        ${e.location?`<div class="muted">${esc(e.location)}</div>`:""}
-        ${e.maps?`<a class="maps" target="_blank" rel="noopener" href="${esc(e.maps)}">Open in Google Maps ↗</a>`:""}
-        ${e.notes?`<div class="eventMeta">${esc(e.notes)}</div>`:""}
-        ${e.cost?`<div class="eventMeta">${eur(e.cost)} · ${esc(e.payer||"")}</div>`:""}
-        </div>
-        <div><button type="button" class="iconBtn" data-edit-event="${esc(e.id)}">✎</button><button type="button" class="iconBtn" data-remove-event="${esc(e.id)}">×</button></div>
-      </div>`).join("")
-    : '<div class="empty">Nothing planned for this day.<br>Use + to add an activity.</div>';
-
-  let m=0,d=0;
-  S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount||0:d+=+e.amount||0);
-  $("m").textContent=eur(m);$("d").textContent=eur(d);
-  const diff=m-d;
-  $("bal").innerHTML=diff===0?"<span>All even</span><strong>€0 owed</strong>":diff>0?`<span>Dil owes Maria</span><strong>${eur(diff/2)}</strong>`:`<span>Maria owes Dil</span><strong>${eur(-diff/2)}</strong>`;
-
-  $("expensesList").innerHTML=S.expenses.length
-    ? `<div class="sectionHead"><h2>Expenses</h2><span class="muted">${S.expenses.length}</span></div>`+
-      S.expenses.slice().reverse().map(e=>{
-        const total=+e.total||+e.amount||0,paid=+e.paid||+e.amount||0,c=e.currency||"EUR",st=stat(total,paid),rem=Math.max(0,total-paid);
-        const pt=c==="MUR"?Math.round(paid).toLocaleString()+" MUR":eur(paid),tt=c==="MUR"?Math.round(total).toLocaleString()+" MUR":eur(total);
-        return `<div class="expense"><div class="expenseGrid"><div>
-          <div class="expenseTitle">${esc(e.name)}</div>
-          <div class="expenseMeta">${esc(e.payer)} · ${pt} of ${tt}${c==="MUR"?` · ${eur(toEur(paid,c))} paid`:""}</div>
-          <span class="badge ${st}">${st==="paid"?"Paid":st==="partial"?"Partially paid":"Pending"}</span>
-          ${rem>0?`<div class="remaining">Remaining: ${c==="MUR"?Math.round(rem).toLocaleString()+" MUR":eur(rem)}</div>`:""}
-        </div><div class="expenseAmount">
-          <button type="button" class="iconBtn" data-edit-expense="${esc(e.id)}">✎</button>
-          <button type="button" class="iconBtn" data-remove-expense="${esc(e.id)}">×</button>
-          <div>${eur(e.amount)}</div>
-        </div></div></div>`;
-      }).join("")
-    : '<div class="empty">No expenses yet.<br>Tap + to add one.</div>';
+ $("days").innerHTML=dates.map(d=>{const x=new Date(d+"T12:00:00"),has=S.events.some(e=>e.day===d);return '<button type="button" class="day '+(d===sel?"on ":"")+(has?"has":"")+'" data-d="'+d+'"><span class="dow">'+x.toLocaleDateString("en-GB",{weekday:"short"})+'</span><b>'+x.getDate()+"</b></button>"}).join("");
+ document.querySelectorAll(".day").forEach(b=>b.onclick=()=>{sel=b.dataset.d;render()});
+ $("selectedDate").textContent=label(sel);
+ const ev=S.events.filter(e=>e.day===sel).sort((a,b)=>(a.time||"99").localeCompare(b.time||"99"));
+ $("eventCount").textContent=ev.length?(ev.length+" "+(ev.length===1?"thing":"things")):"Nothing yet";
+ $("events").innerHTML=ev.length?ev.map(e=>'<div class="event"><div class="time">'+esc(e.time||"All day")+'</div><div><h3>'+esc(e.name)+'</h3>'+(e.location?'<div class="meta">'+esc(e.location)+"</div>":"")+(e.maps?'<a class="maps" target="_blank" rel="noopener" href="'+esc(e.maps)+'">Open in Google Maps ↗</a>':"")+(e.notes?'<div class="meta" style="margin-top:7px">'+esc(e.notes)+"</div>":"")+(e.cost?'<div class="meta" style="margin-top:7px">'+eur(e.cost)+" · "+esc(e.payer||"")+"</div>":"")+'</div><div class="rowBtns"><button class="mini" data-edit-event="'+esc(e.id)+'">✎</button><button class="mini" data-remove-event="'+esc(e.id)+'">×</button></div></div>').join(""):'<div class="empty">Nothing planned for this day.<br>Tap + to add something.</div>';
+ let m=0,d=0;S.expenses.forEach(e=>e.payer==="Maria"?m+=+e.amount||0:d+=+e.amount||0);$("m").textContent=eur(m);$("d").textContent=eur(d);
+ const diff=m-d;$("bal").innerHTML=diff===0?"<span>Everything is even</span><strong>€0 owed</strong>":diff>0?'<span>Dil owes Maria</span><strong>'+eur(diff/2)+"</strong>":'<span>Maria owes Dil</span><strong>'+eur(-diff/2)+"</strong>";
+ $("expenseCount").textContent=S.expenses.length?String(S.expenses.length):"Nothing yet";
+ $("expensesList").innerHTML=S.expenses.length?S.expenses.slice().reverse().map(e=>{const total=+e.total||+e.amount||0,paid=+e.paid||+e.amount||0,c=e.currency||"EUR",st=stat(total,paid),rem=Math.max(0,total-paid);const shown=c==="MUR"?Math.round(paid).toLocaleString()+" MUR":eur(paid);return '<div class="expense"><div><div class="expenseTitle">'+esc(e.name)+'</div><div class="expenseMeta">'+esc(e.payer)+" · "+shown+(c==="MUR"?" · "+eur(toEur(paid,c)):"")+'</div><span class="badge '+st+'">'+(st==="paid"?"Paid":st==="partial"?"Partially paid":"Pending")+"</span>"+(rem>0?'<div class="remaining">Remaining: '+(c==="MUR"?Math.round(rem).toLocaleString()+" MUR":eur(rem))+"</div>":"")+'</div><div class="expenseRight"><strong>'+eur(e.amount)+'</strong><div class="rowBtns" style="justify-content:flex-end;margin-top:7px"><button class="mini" data-edit-expense="'+esc(e.id)+'">✎</button><button class="mini" data-remove-expense="'+esc(e.id)+'">×</button></div></div></div>"}).join(""):'<div class="empty">No expenses yet.<br>Tap + to add one.</div>';
 }
-function modal(id){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"));$(id).classList.add("on")}function close(){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"))}
-function view(v){document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id===v));document.querySelectorAll(".bottom button[data-v]").forEach(x=>x.classList.toggle("on",x.dataset.v===v))}
+function modal(id){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"));$(id).classList.add("on")}
+function close(){document.querySelectorAll(".modal").forEach(x=>x.classList.remove("on"))}
+function view(v){document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id===v));document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.v===v))}
 function fillDays(){$("day").innerHTML=dates.map(d=>'<option value="'+d+'">'+short(d)+"</option>").join("")}
-function openActivity(id){fillDays();$("activityForm").dataset.id=id||"";$("activityHeading").textContent=id?"Edit activity":"Add activity";if(id){let e=S.events.find(x=>x.id===id);$("name").value=e?.name||"";$("day").value=e?.day||sel;$("time").value=e?.time||"";$("loc").value=e?.location||"";$("maps").value=e?.maps||"";$("notes").value=e?.notes||"";$("cost").value=e?.cost||"";$("payer").value=e?.payer||"Maria"}else{$("activityForm").reset();$("day").value=sel;$("payer").value="Maria"}modal("activityModal")}
-function setExpenseChoice(){
-  document.querySelectorAll("#currencyChoices button").forEach(b=>b.classList.toggle("on",b.dataset.currency===$("expenseForm").dataset.currency));
-  document.querySelectorAll("#payerChoices button").forEach(b=>b.classList.toggle("on",b.dataset.payer===$("expenseForm").dataset.payer));
-  $("totalBox").classList.toggle("hidden",!$("notFullyPaid").checked);$("partialToggle").classList.toggle("on",$("notFullyPaid").checked);
-}
-function preview(){
-  const c=$("expenseForm").dataset.currency||"EUR",paid=+$("expensePaid").value||0,total=+$("expenseTotal").value||0;
-  $("eurPreview").textContent=eur(toEur(paid,c));
-  $("paidPreview").textContent=c==="MUR"?"Actual paid · "+paid.toLocaleString()+" MUR":"Actual amount paid";
-  $("rateText").textContent=c==="MUR"?"1 MUR ≈ "+rate.toFixed(6)+" EUR":"This is the amount that will count toward your split.";
-  setExpenseChoice();
-}
-async function getRate(){try{const x=await (await fetch("https://open.er-api.com/v6/latest/MUR")).json();if(x?.rates?.EUR)rate=x.rates.EUR}catch(e){}preview()}
-function openExpense(id){
-  $("expenseError").textContent="";$("expenseForm").dataset.id=id||"";
-  $("expenseHeading").textContent=id?"Edit expense":"Add expense";
-  if(id){
-    const e=S.expenses.find(x=>x.id===id);
-    $("expenseTitle").value=e?.name||"";
-    $("expensePaid").value=e?.paid??e?.amount??"";
-    $("expenseTotal").value=e?.total??"";
-    $("notFullyPaid").checked=(+e?.total||0)>(+e?.paid||0);
-    $("expenseForm").dataset.currency=e?.currency||"EUR";
-    $("expenseForm").dataset.payer=e?.payer||"";
-  }else{
-    $("expenseForm").reset();
-    $("expenseForm").dataset.currency="EUR";
-    $("expenseForm").dataset.payer="";
-    $("notFullyPaid").checked=false;
-  }
-  setExpenseChoice();preview();modal("expenseModal");
-  if($("expenseForm").dataset.currency==="MUR")getRate();
-}
-async function expenseSubmit(e){
-  e.preventDefault();$("expenseError").textContent="";
-  const id=e.target.dataset.id||uid(),c=e.target.dataset.currency||"EUR",payer=e.target.dataset.payer||"";
-  const paid=+$("expensePaid").value||0,partial=$("notFullyPaid").checked,total=partial?(+$("expenseTotal").value||0):paid;
-  if(!e.target.querySelector("#expenseTitle").value.trim())return $("expenseError").textContent="Add a title.";
-  if(!payer)return $("expenseError").textContent="Choose who paid.";
-  if(paid<0)return $("expenseError").textContent="Enter a valid amount.";
-  if(partial&&total<=0)return $("expenseError").textContent="Enter the total amount due.";
-  if(partial&&paid>total)return $("expenseError").textContent="Amount paid can't be more than the total.";
-  const x={id,name:$("expenseTitle").value.trim(),amount:toEur(paid,c),payer,currency:c,total,paid,status:stat(total,paid),remaining:Math.max(0,total-paid)};
-  S.expenses=S.expenses.some(v=>v.id===id)?S.expenses.map(v=>v.id===id?{...v,eventId:v.eventId,...x}:v):[...S.expenses,x];
-  close();render();await save();
-}
-async function activitySubmit(e){e.preventDefault();let id=e.target.dataset.id||uid(),x={id,name:$("name").value.trim(),day:$("day").value,time:$("time").value,location:$("loc").value.trim(),maps:$("maps").value.trim(),notes:$("notes").value.trim(),cost:+$("cost").value||0,payer:$("payer").value};if(!x.name)return;let old=S.events.find(v=>v.id===id);S.events=old?S.events.map(v=>v.id===id?x:v):[...S.events,x];let linked=S.expenses.find(v=>v.eventId===id);if(linked){if(x.cost>0)S.expenses=S.expenses.map(v=>v.id===linked.id?{...v,name:x.name,amount:x.cost,total:x.cost,paid:x.cost,payer:x.payer,currency:"EUR",status:"paid",remaining:0}:v);else S.expenses=S.expenses.filter(v=>v.id!==linked.id)}else if(x.cost>0)S.expenses=[...S.expenses,{id:uid(),eventId:id,name:x.name,amount:x.cost,total:x.cost,paid:x.cost,payer:x.payer,currency:"EUR",status:"paid",remaining:0}];close();render();await save()}
-async function removeEvent(id){if(!confirm("Delete this activity?"))return;S.events=S.events.filter(e=>e.id!==id);S.expenses=S.expenses.filter(e=>e.eventId!==id);render();await save()}async function removeExpense(id){if(!confirm("Delete this expense?"))return;S.expenses=S.expenses.filter(e=>e.id!==id);render();await save()}function editEvent(id){openActivity(id)}function editExpense(id){openExpense(id)}
-document.querySelectorAll(".bottom button[data-v]").forEach(b=>b.onclick=()=>view(b.dataset.v));$("plus").onclick=()=>modal("choiceModal");$("choiceCancel").onclick=close;$("addActivity").onclick=()=>openActivity();$("addExpense").onclick=()=>openExpense();$("activityCancel").onclick=close;$("expenseCancel").onclick=close;$("expenseClose").onclick=close;$("activityForm").onsubmit=activitySubmit;$("expenseForm").onsubmit=expenseSubmit;document.querySelectorAll("#currencyChoices button").forEach(b=>b.onclick=()=>{ $("expenseForm").dataset.currency=b.dataset.currency; if(b.dataset.currency==="MUR")getRate(); else preview(); });
-document.querySelectorAll("#payerChoices button").forEach(b=>b.onclick=()=>{ $("expenseForm").dataset.payer=b.dataset.payer; setExpenseChoice(); });
-$("partialToggle").onclick=()=>{ $("notFullyPaid").checked=!$("notFullyPaid").checked; $("totalBox").classList.toggle("hidden",!$("notFullyPaid").checked); preview(); };
-$("expensePaid").oninput=preview;$("expenseTotal").oninput=preview;document.addEventListener("click",e=>{
-  const b=e.target.closest("[data-edit-event],[data-remove-event],[data-edit-expense],[data-remove-expense]");
-  if(!b)return;
-  if(b.dataset.editEvent)editEvent(b.dataset.editEvent);
-  else if(b.dataset.removeEvent)removeEvent(b.dataset.removeEvent);
-  else if(b.dataset.editExpense)editExpense(b.dataset.editExpense);
-  else if(b.dataset.removeExpense)removeExpense(b.dataset.removeExpense);
-});
+function openActivity(id){fillDays();$("activityForm").dataset.id=id||"";$("activityHeading").textContent=id?"Edit activity":"Add activity";if(id){const e=S.events.find(x=>x.id===id);$("name").value=e?.name||"";$("day").value=e?.day||sel;$("time").value=e?.time||"";$("loc").value=e?.location||"";$("maps").value=e?.maps||"";$("notes").value=e?.notes||"";$("cost").value=e?.cost||"";$("payer").value=e?.payer||"Maria"}else{$("activityForm").reset();$("day").value=sel;$("payer").value="Maria"}modal("activityModal")}
+function expenseChoice(){const f=$("expenseForm");document.querySelectorAll("#currencyChoices button").forEach(b=>b.classList.toggle("on",b.dataset.currency===f.dataset.currency));document.querySelectorAll("#payerChoices button").forEach(b=>b.classList.toggle("on",b.dataset.payer===f.dataset.payer));$("totalBox").classList.toggle("hidden",!f.dataset.partial);$("partialToggle").classList.toggle("on",f.dataset.partial==="1")}
+function expensePreview(){const f=$("expenseForm"),c=f.dataset.currency||"EUR";$("rateText").textContent=c==="MUR"?"1 MUR ≈ "+rate.toFixed(6)+" EUR · split uses the EUR equivalent":"";expenseChoice()}
+async function getRate(){try{const x=await(await fetch("https://open.er-api.com/v6/latest/MUR")).json();if(x?.rates?.EUR)rate=x.rates.EUR}catch(e){}expensePreview()}
+function openExpense(id){const f=$("expenseForm");$("expenseError").textContent="";f.dataset.id=id||"";$("expenseHeading").textContent=id?"Edit expense":"Add expense";f.reset();if(id){const e=S.expenses.find(x=>x.id===id);$("expenseTitle").value=e?.name||"";$("expensePaid").value=e?.paid??e?.amount??"";$("expenseTotal").value=e?.total??"";f.dataset.currency=e?.currency||"EUR";f.dataset.payer=e?.payer||"";f.dataset.partial=(+e?.total||0)>(+e?.paid||0)?"1":"0"}else{f.dataset.currency="";f.dataset.payer="";f.dataset.partial="0"}expenseChoice();expensePreview();modal("expenseModal");if(f.dataset.currency==="MUR")getRate()}
+async function expenseSubmit(ev){ev.preventDefault();const f=ev.currentTarget, title=$("expenseTitle").value.trim(),paid=+$("expensePaid").value||0,c=f.dataset.currency,payer=f.dataset.payer,partial=f.dataset.partial==="1",total=partial?(+$("expenseTotal").value||0):paid;$("expenseError").textContent="";if(!title)return $("expenseError").textContent="Add a title.";if(!c)return $("expenseError").textContent="Choose EUR or MUR.";if(!payer)return $("expenseError").textContent="Choose who paid.";if(paid<0)return $("expenseError").textContent="Enter a valid amount.";if(partial&&total<=0)return $("expenseError").textContent="Enter the total amount due.";if(partial&&paid>total)return $("expenseError").textContent="Paid can't be more than the total.";if(!partial&&paid<=0)return $("expenseError").textContent="Enter an amount.";const id=f.dataset.id||uid(),x={id,name:title,amount:toEur(paid,c),payer,currency:c,total,paid,status:stat(total,paid),remaining:Math.max(0,total-paid)};S.expenses=S.expenses.some(v=>v.id===id)?S.expenses.map(v=>v.id===id?{...v,eventId:v.eventId,...x}:v):[...S.expenses,x];close();render();await save()}
+async function activitySubmit(ev){ev.preventDefault();const f=ev.currentTarget,id=f.dataset.id||uid(),x={id,name:$("name").value.trim(),day:$("day").value,time:$("time").value,location:$("loc").value.trim(),maps:$("maps").value.trim(),notes:$("notes").value.trim(),cost:+$("cost").value||0,payer:$("payer").value};if(!x.name)return;const old=S.events.find(v=>v.id===id);S.events=old?S.events.map(v=>v.id===id?x:v):[...S.events,x];const linked=S.expenses.find(v=>v.eventId===id);if(linked){if(x.cost)S.expenses=S.expenses.map(v=>v.id===linked.id?{...v,name:x.name,amount:x.cost,total:x.cost,paid:x.cost,payer:x.payer,currency:"EUR",status:"paid",remaining:0}:v);else S.expenses=S.expenses.filter(v=>v.id!==linked.id)}else if(x.cost)S.expenses=[...S.expenses,{id:uid(),eventId:id,name:x.name,amount:x.cost,total:x.cost,paid:x.cost,payer:x.payer,currency:"EUR",status:"paid",remaining:0}];close();render();await save()}
+async function removeEvent(id){if(!confirm("Delete this activity?"))return;S.events=S.events.filter(e=>e.id!==id);S.expenses=S.expenses.filter(e=>e.eventId!==id);render();await save()}
+async function removeExpense(id){if(!confirm("Delete this expense?"))return;S.expenses=S.expenses.filter(e=>e.id!==id);render();await save()}
+function editEvent(id){openActivity(id)}function editExpense(id){openExpense(id)}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>view(b.dataset.v));
+$("plus").onclick=()=>modal("choiceModal");$("choiceCancel").onclick=close;$("addActivity").onclick=()=>openActivity();$("addExpense").onclick=()=>openExpense();$("activityCancel").onclick=close;$("activityClose").onclick=close;$("expenseCancel").onclick=close;$("expenseClose").onclick=close;
+$("activityForm").onsubmit=activitySubmit;$("expenseForm").onsubmit=expenseSubmit;
+document.querySelectorAll("#currencyChoices button").forEach(b=>b.onclick=()=>{$("expenseForm").dataset.currency=b.dataset.currency;expensePreview();if(b.dataset.currency==="MUR")getRate()});
+document.querySelectorAll("#payerChoices button").forEach(b=>b.onclick=()=>{$("expenseForm").dataset.payer=b.dataset.payer;expenseChoice()});
+$("partialToggle").onclick=()=>{const f=$("expenseForm");f.dataset.partial=f.dataset.partial==="1"?"0":"1";expenseChoice()};
+document.addEventListener("click",e=>{const b=e.target.closest("[data-edit-event],[data-remove-event],[data-edit-expense],[data-remove-expense]");if(!b)return;if(b.dataset.editEvent)editEvent(b.dataset.editEvent);else if(b.dataset.removeEvent)removeEvent(b.dataset.removeEvent);else if(b.dataset.editExpense)editExpense(b.dataset.editExpense);else removeExpense(b.dataset.removeExpense)});
 document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target===m)close()});
 load();setInterval(refresh,10000);
-</script></body></html>
+</script>
+</body></html>
