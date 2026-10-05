@@ -50,7 +50,7 @@ input,select,textarea{width:100%;padding:13px;margin-top:5px;border:1px solid #d
 textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:3px}
 .ghost,.save{border:0;padding:12px 16px;border-radius:13px;font-weight:700}.ghost{background:#fff}.save{background:var(--ink);color:#fff}
 .choiceGrid{display:grid;gap:10px}.choice{border:1px solid var(--line);background:#fff;border-radius:18px;padding:17px;text-align:left}.choice b{display:block;font-size:17px;margin-bottom:3px}.choice span{color:var(--muted)}
-.currency{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}.currencyBox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}.currencyLabel{font-size:11px;color:var(--muted);font-weight:700}.currencyValue{font-size:20px;font-weight:750;margin-top:3px}.rate{font-size:12px;color:var(--muted);margin-top:-4px}
+.currency{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}.statusChoice{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:6px}.statusChoice button{border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 6px;font-weight:700;color:var(--muted)}.statusChoice button.on{background:var(--green);color:#fff;border-color:var(--green)}.currencyBox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}.currencyLabel{font-size:11px;color:var(--muted);font-weight:700}.currencyValue{font-size:20px;font-weight:750;margin-top:3px}.rate{font-size:12px;color:var(--muted);margin-top:-4px}
 @media(max-width:560px){.days{gap:2px}.day{padding:8px 1px}.day b{font-size:17px}.event{grid-template-columns:48px 1fr auto}.header{align-items:center}h1{font-size:35px}}
 </style>
 </head>
@@ -116,13 +116,14 @@ textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:f
 <div class="modal" id="expenseModal"><div class="sheet">
   <h2 id="expenseHeading">Add expense</h2>
   <form class="form" id="expenseForm">
-    <label>Title<input id="expenseTitle" required placeholder="Lunch, taxi, boat tour…"></label>
-    <div class="currency">
-      <label>Mauritian rupees (MUR)<input id="mur" type="number" min="0" step=".01" required placeholder="1500"></label>
-      <div class="currencyBox"><div class="currencyLabel">EURO EQUIVALENT</div><div class="currencyValue" id="eurPreview">€0.00</div></div>
+    <label>Title<input id="expenseTitle" required placeholder="Car reservation, lunch, boat tour…"></label>
+    <div class="row"><label>Currency<select id="expenseCurrency"><option value="EUR">EUR €</option><option value="MUR">MUR Rs</option></select></label><label>Paid by<select id="expensePayer"><option>Maria</option><option>Dil</option></select></label></div>
+    <label>Total amount<input id="expenseTotal" type="number" min="0" step=".01" required placeholder="500"></label>
+    <label>Amount paid so far<input id="expensePaid" type="number" min="0" step=".01" required placeholder="250"></label>
+    <div class="currencyBox"><div class="currencyLabel">TOTAL IN EUR</div><div class="currencyValue" id="eurPreview">€0.00</div><div class="rate" id="rateText">Getting live MUR → EUR rate…</div></div>
+    <div class="statusChoice" id="statusChoice">
+      <button type="button" data-status="paid">Paid</button><button type="button" data-status="partial">Partially paid</button><button type="button" data-status="pending">Pending</button>
     </div>
-    <div class="rate" id="rateText">Getting live MUR → EUR rate…</div>
-    <div class="row"><label>Day<select id="expenseDay"></select></label><label>Paid by<select id="expensePayer"><option>Maria</option><option>Dil</option></select></label></div>
     <div class="actions"><button type="button" class="ghost" id="expenseCancel">Cancel</button><button class="save">Save expense</button></div>
   </form>
 </div></div>
@@ -130,7 +131,7 @@ textarea{min-height:74px;resize:vertical}.actions{display:flex;justify-content:f
 <script>
 const API="https://flcnidtinfhpjdvqvegl.supabase.co/functions/v1/trip-api";
 const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsY25pZHRpbmZocGpkdnF2ZWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExOTkwMTAsImV4cCI6MjEwNjc3NTAxMH0.jBWofh1-jw_8tNAJJsFDigNpU2LT-FM6zlTHTE7o9h0";
-let S={people:["Maria","Dil"],events:[],expenses:[]},sel="2026-10-13",murToEur=0.0101,lastUpdated="";
+let S={people:["Maria","Dil"],events:[],expenses:[]},sel="2026-10-13",murToEur=0.0185,lastUpdated="",expenseStatus="paid";
 const dates=Array.from({length:9},(_,i)=>new Date(Date.UTC(2026,9,13+i)).toISOString().slice(0,10));
 const $=id=>document.getElementById(id);
 const eur=n=>"€"+(+n||0).toFixed(2).replace(".00","");
@@ -150,7 +151,8 @@ async function getRate(){
   }catch(e){}
   $("rateText").textContent="Using fallback rate · 1 MUR = "+murToEur.toFixed(4)+" EUR"; updatePreview();
 }
-function updatePreview(){$("eurPreview").textContent=eur((+$("mur").value||0)*murToEur)}
+function expenseEurValue(v,c){return c==="MUR"?(+v||0)*murToEur:(+v||0)}
+function updatePreview(){const c=$("expenseCurrency").value||"EUR";$("eurPreview").textContent=eur(expenseEurValue($("expenseTotal").value,c));$("rateText").textContent=c==="MUR"?"Live MUR → EUR · 1 MUR = "+murToEur.toFixed(6)+" EUR":"EUR amount · no conversion needed";}
 function render(){
   $("days").innerHTML=dates.map(d=>{
     const x=new Date(d+"T12:00:00"),has=S.events.some(e=>e.day===d);
@@ -192,7 +194,7 @@ function openExpense(editId=null){closeAll();$("expenseModal").classList.add("on
 $("fab").onclick=openChoice;$("bottomPlus").onclick=openChoice;$("choiceCancel").onclick=closeAll;
 $("addActivity").onclick=openActivity;$("addExpense").onclick=openExpense;
 $("activityCancel").onclick=closeAll;$("expenseCancel").onclick=closeAll;
-$("mur").oninput=updatePreview;
+$("expenseCurrency").onchange=()=>{getRate();updatePreview()};$("expenseTotal").oninput=updatePreview;$("expensePaid").oninput=updatePreview;document.querySelectorAll("#statusChoice button").forEach(b=>b.onclick=()=>setStatus(b.dataset.status));
 document.querySelectorAll(".topnav button,.bottom button[data-v]").forEach(b=>b.onclick=()=>{
   const v=b.dataset.v;
   document.querySelectorAll(".topnav button").forEach(x=>x.classList.toggle("on",x.dataset.v===v));
